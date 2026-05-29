@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แบบทดสอบสังคมศึกษา ชุดที่ 2 (สกร. ประถมศึกษา)</title>
+<meta name="description" content="แบบทดสอบสังคมศึกษา ชุดที่ 2 จำนวน 20 ข้อ สำหรับนักศึกษา สกร. ระดับประถมศึกษา">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --blue:#185FA5;--blue-dark:#0c447c;--blue-light:#E6F1FB;--blue-mid:#378ADD;
+    --green:#3B6D11;--green-light:#EAF3DE;--green-mid:#97C459;
+    --red:#A32D2D;--red-light:#FCEBEB;--red-mid:#F09595;
+    --amber:#633806;--amber-light:#FAEEDA;
+    --gray-bg:#f5f4f0;--gray-card:#fff;--gray-border:rgba(0,0,0,0.12);
+    --gray-surface:#f0ede6;--text:#1a1a1a;--text-muted:#666;--text-hint:#999;
+  }
+  body{font-family:'Sarabun',sans-serif;background:var(--gray-bg);min-height:100vh;color:var(--text)}
+  .wrap{max-width:680px;margin:0 auto;padding:16px}
+
+  /* Header (เปลี่ยนโทนสีให้ต่างจากชุดแรกเล็กน้อย) */
+  .header{background:linear-gradient(135deg,#2e7d32 0%,#1b5e20 100%);border-radius:18px;padding:24px;margin-bottom:14px;color:#fff;position:relative;overflow:hidden}
+  .header::before{content:'';position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.07)}
+  .header::after{content:'';position:absolute;bottom:-20px;right:40px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.05)}
+  .badge{display:inline-block;background:rgba(255,255,255,0.2);border-radius:99px;padding:4px 14px;font-size:12px;font-weight:600;margin-bottom:10px;letter-spacing:.5px}
+  .htitle{font-size:24px;font-weight:700;margin-bottom:5px}
+  .hsub{font-size:14px;opacity:.85}
+
+  /* Progress */
+  .prog-card{background:var(--gray-card);border-radius:12px;border:1px solid var(--gray-border);padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:16px}
+  .prog-info{flex:1}
+  .prog-lbl{font-size:12px;color:var(--text-muted);margin-bottom:6px}
+  .prog-bg{background:var(--gray-surface);border-radius:99px;height:8px}
+  .prog-fill{background:linear-gradient(90deg,#2e7d32,#4caf50);border-radius:99px;height:8px;transition:width .4s ease}
+  .prog-right{text-align:right}
+  .prog-num{font-size:14px;font-weight:700;color:var(--text)}
+  .prog-sub{font-size:12px;color:var(--text-muted);margin-top:2px}
+
+  /* Question card */
+  .q-card{background:var(--gray-card);border-radius:18px;border:1px solid var(--gray-border);padding:24px;margin-bottom:14px}
+  .q-badge{font-size:11px;color:#2e7d32;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+  .q-num-circle{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#e8f5e9;color:#2e7d32;font-size:14px;font-weight:700;margin-bottom:12px}
+  .q-text{font-size:18px;font-weight:600;line-height:1.65;margin-bottom:16px;color:var(--text)}
+  .q-context{background:var(--gray-surface);border-left:3px solid #2e7d32;border-radius:0 10px 10px 0;padding:12px 16px;font-size:14px;color:var(--text-muted);margin-bottom:18px;font-style:italic;line-height:1.75}
+
+  /* Choices */
+  .choices{display:flex;flex-direction:column;gap:9px}
+  .choice{background:var(--gray-card);border:1.5px solid var(--gray-border);border-radius:12px;padding:13px 16px;text-align:left;cursor:pointer;font-size:15px;font-family:'Sarabun',sans-serif;color:var(--text);transition:all .15s;display:flex;align-items:center;gap:12px;line-height:1.5;width:100%}
+  .choice:hover:not(:disabled){background:#e8f5e9;border-color:#4caf50;color:#2e7d32}
+  .choice.selected{background:#e8f5e9;border-color:#2e7d32;color:#2e7d32;font-weight:500}
+  .choice.correct{background:var(--green-light);border-color:var(--green);color:var(--green)}
+  .choice.wrong{background:var(--red-light);border-color:var(--red);color:var(--red)}
+  .choice:disabled{cursor:not-allowed}
+  .cletter{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;background:var(--gray-surface);color:var(--text-muted);transition:all .15s}
+  .choice.selected .cletter{background:#2e7d32;color:#fff}
+  .choice.correct .cletter{background:var(--green);color:#fff}
+  .choice.wrong .cletter{background:var(--red);color:#fff}
+
+  /* Feedback */
+  .feedback{border-radius:12px;padding:14px 16px;font-size:14px;margin-top:14px;line-height:1.7;display:none}
+  .feedback.show{display:block}
+  .feedback.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green-mid)}
+  .feedback.no{background:var(--red-light);color:var(--red);border:1px solid var(--red-mid)}
+  .feedback strong{font-weight:700}
+  .fb-explain{font-size:13px;margin-top:6px;display:block;opacity:.85}
+
+  /* Nav */
+  .nav{display:flex;justify-content:space-between;align-items:center;margin-top:16px;gap:10px}
+  .btn{padding:11px 26px;border-radius:10px;border:0;font-size:15px;font-weight:600;font-family:'Sarabun',sans-serif;cursor:pointer;transition:all .15s}
+  .btn-primary{background:#2e7d32;color:#fff}
+  .btn-primary:hover{background:#1b5e20}
+  .btn-primary:disabled{opacity:.4;cursor:not-allowed}
+  .btn-secondary{background:var(--gray-surface);color:var(--text-muted);border:1px solid var(--gray-border)}
+  .btn-secondary:hover{background:#e4e1d8}
+
+  /* Dot nav */
+  .dotnav{display:flex;gap:5px;flex-wrap:wrap;padding:4px 2px}
+  .dot{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;cursor:pointer;transition:all .12s;border:none;font-family:'Sarabun',sans-serif}
+  .dot-idle{background:var(--gray-surface);color:var(--text-muted)}
+  .dot-active{background:#2e7d32;color:#fff;transform:scale(1.1)}
+  .dot-ok{background:var(--green);color:#fff}
+  .dot-no{background:var(--red);color:#fff}
+
+  /* Result */
+  .result-wrap{background:var(--gray-card);border-radius:18px;border:1px solid var(--gray-border);padding:32px 24px;text-align:center}
+  .result-icon{font-size:64px;margin-bottom:14px;display:block}
+  .score-big{font-size:56px;font-weight:700;color:#2e7d32;line-height:1}
+  .score-denom{font-size:22px;color:var(--text-muted);margin-bottom:6px}
+  .score-pct{font-size:20px;font-weight:600;color:var(--text);margin-bottom:8px}
+  .grade-pill{display:inline-block;padding:5px 20px;border-radius:99px;font-size:14px;font-weight:700;margin-bottom:16px}
+  .grade-A{background:var(--green-light);color:var(--green)}
+  .grade-B{background:#e8f5e9;color:#2e7d32}
+  .grade-C{background:var(--amber-light);color:var(--amber)}
+  .grade-D{background:var(--red-light);color:var(--red)}
+  .result-msg{font-size:15px;color:var(--text-muted);margin-bottom:20px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0 24px}
+  .sbox{background:var(--gray-surface);border-radius:10px;padding:14px 8px;text-align:center}
+  .snum{font-size:26px;font-weight:700}
+  .snum.green{color:var(--green)}
+  .snum.red{color:var(--red)}
+  .snum.theme{color:#2e7d32}
+  .slbl{font-size:12px;color:var(--text-muted);margin-top:3px}
+  .btn-retry{background:#2e7d32;color:#fff;padding:13px 36px;border-radius:12px;border:0;font-size:17px;font-weight:700;font-family:'Sarabun',sans-serif;cursor:pointer;margin-bottom:28px;transition:background .15s}
+  .btn-retry:hover{background:#1b5e20}
+
+  /* Review */
+  .review-title{font-size:17px;font-weight:700;padding-bottom:10px;border-bottom:1px solid var(--gray-border);margin-bottom:14px;text-align:left}
+  .ri{padding:14px 0;border-bottom:1px solid var(--gray-border);text-align:left}
+  .ri:last-child{border-bottom:none}
+  .ri-q{font-size:14px;font-weight:600;margin-bottom:7px;line-height:1.55;display:flex;gap:8px;align-items:flex-start}
+  .ri-tick{width:20px;height:20px;border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;margin-top:1px}
+  .ri-ok{background:var(--green-light);color:var(--green)}
+  .ri-no{background:var(--red-light);color:var(--red)}
+  .ri-user{font-size:13px;color:var(--text-muted);margin-bottom:3px}
+  .ri-correct{font-size:13px;color:var(--green);font-weight:600;margin-bottom:3px}
+  .ri-exp{font-size:12px;color:var(--text-hint);line-height:1.6}
+
+  /* Start screen */
+  .start-wrap{background:var(--gray-card);border-radius:18px;border:1px solid var(--gray-border);padding:32px 24px;text-align:center}
+  .start-icon{font-size:72px;display:block;margin-bottom:16px}
+  .start-title{font-size:26px;font-weight:700;margin-bottom:8px}
+  .start-sub{font-size:15px;color:var(--text-muted);line-height:1.75;margin-bottom:22px}
+  .pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:22px}
+  .pill{background:#e8f5e9;color:#2e7d32;border-radius:99px;padding:5px 16px;font-size:13px;font-weight:600}
+  .topic-box{background:var(--gray-surface);border-radius:12px;padding:16px;margin-bottom:24px;text-align:left}
+  .topic-head{font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text)}
+  .topic-row{font-size:14px;color:var(--text-muted);padding:4px 0;display:flex;align-items:center;gap:9px}
+  .topic-dot{width:7px;height:7px;border-radius:50%;background:#4caf50;flex-shrink:0}
+  .btn-start{background:#2e7d32;color:#fff;padding:15px 48px;border-radius:14px;border:0;font-size:19px;font-weight:700;font-family:'Sarabun',sans-serif;cursor:pointer;box-shadow:0 6px 20px rgba(46,125,50,.3);transition:all .15s}
+  .btn-start:hover{background:#1b5e20;transform:translateY(-2px)}
+
+  @media(max-width:480px){
+    .wrap{padding:10px}
+    .htitle{font-size:20px}
+    .q-text{font-size:16px}
+    .choice{font-size:14px}
+    .score-big{font-size:44px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="badge">สกร. • ระดับประถมศึกษา (ชุดที่ 2)</div>
+    <div class="htitle">🧭 แบบทดสอบสังคมศึกษา</div>
+    <div class="hsub">Social Studies Quiz 2 — 20 ข้อ • ฝึกฝนความรู้รอบตัวเพิ่มเติม</div>
+  </div>
+  <div id="app"></div>
+</div>
+
+<script>
+const Q=[
+  {id:1,cat:"ศาสนา",q:"ศาสดาของศาสนาอิสลามคือท่านใด?",ctx:"",c:["พระเยซู","นบีมุฮัมมัด","พระพุทธเจ้า","พระพรหม"],a:1,exp:"นบีมุฮัมมัด เป็นศาสดาของศาสนาอิสลาม"},
+  {id:2,cat:"ศาสนา",q:"ศาสนาคริสต์มีสัญลักษณ์ที่สำคัญที่สุดคืออะไร?",ctx:"",c:["ธรรมจักร","ไม้กางเขน","พระจันทร์เสี้ยว","ดาวหกแฉก"],a:1,exp:"ไม้กางเขนเป็นสัญลักษณ์ของการเสียสละของพระเยซูคริสต์เพื่อไถ่บาปให้มนุษย์"},
+  {id:3,cat:"ศาสนา",q:"ในหลักธรรม 'อริยสัจ 4' คำว่า 'สมุทัย' หมายถึงสิ่งใด?",ctx:"",c:["ความทุกข์","สาเหตุแห่งทุกข์","ความดับทุกข์","หนทางดับทุกข์"],a:1,exp:"สมุทัย คือ สาเหตุที่ทำให้เกิดทุกข์ (ส่วนใหญ่เกิดจากตัณหาความอยาก)"},
+  {id:4,cat:"หน้าที่พลเมือง",q:"กฎหมายสูงสุดที่ใช้ในการปกครองประเทศคืออะไร?",ctx:"",c:["กฎหมายอาญา","กฎหมายแพ่ง","รัฐธรรมนูญ","พระราชบัญญัติ"],a:2,exp:"รัฐธรรมนูญเป็นกฎหมายสูงสุดของประเทศ กฎหมายอื่นจะขัดแย้งกับรัฐธรรมนูญไม่ได้"},
+  {id:5,cat:"หน้าที่พลเมือง",q:"บุคคลใดมีหน้าที่ในการออกกฎหมายระดับประเทศในระบบประชาธิปไตยของไทย?",ctx:"",c:["ศาล","รัฐสภา","ตำรวจ","นายกรัฐมนตรี"],a:1,exp:"รัฐสภา (ประกอบด้วยสภาผู้แทนราษฎรและวุฒิสภา) ทำหน้าที่ฝ่ายนิติบัญญัติ หรือออกกฎหมาย"},
+  {id:6,cat:"หน้าที่พลเมือง",q:"ข้อใดคือสิทธิขั้นพื้นฐานที่เด็กทุกคนควรได้รับ?",ctx:"",c:["สิทธิในการทำงานหาเงิน","สิทธิในการเลือกตั้ง","สิทธิได้รับการศึกษาขั้นพื้นฐาน","สิทธิในการขับขี่รถยนต์"],a:2,exp:"ตามกฎหมาย เด็กมีสิทธิที่จะได้รับการศึกษาขั้นพื้นฐานอย่างน้อย 12 ปี"},
+  {id:7,cat:"หน้าที่พลเมือง",q:"การแสดงความเคารพที่เป็นเอกลักษณ์ของวัฒนธรรมไทยคือข้อใด?",ctx:"",c:["การจับมือ","การสวมกอด","การโค้งคำนับ","การไหว้"],a:3,exp:"การไหว้เป็นการแสดงความเคารพและทักทายที่เป็นเอกลักษณ์อันดีงามของไทย"},
+  {id:8,cat:"เศรษฐศาสตร์",q:"ข้อใดคือความหมายของ 'การออมเงิน' ที่ถูกต้องที่สุด?",ctx:"",c:["เงินที่เหลือจากการใช้จ่ายประจำวัน","เงินที่กู้ยืมมาจากธนาคาร","เงินที่ได้รับจากการทำงานทั้งหมด","เงินที่นำไปซื้อของเล่น"],a:0,exp:"การออม คือ ส่วนของรายได้ที่เหลือจากการใช้จ่ายเพื่อเก็บไว้ใช้ในอนาคต"},
+  {id:9,cat:"เศรษฐศาสตร์",q:"สินค้าในข้อใดถือเป็น 'สินค้าฟุ่มเฟือย' (ไม่จำเป็นต่อการดำรงชีวิต)?",ctx:"",c:["ยารักษาโรค","ข้าวสาร","น้ำดื่ม","เครื่องประดับราคาแพง"],a:3,exp:"เครื่องประดับราคาแพงเป็นสินค้าฟุ่มเฟือย ส่วนอาหาร ยา และน้ำ เป็นสินค้าจำเป็น"},
+  {id:10,cat:"เศรษฐศาสตร์",q:"ปัจจัยการผลิตที่เรียกว่า 'ทุน' ทางเศรษฐศาสตร์ หมายถึงอะไร?",ctx:"",c:["เงินสดเท่านั้น","เครื่องจักร เครื่องมือ และโรงงาน","แรงงานคน","ที่ดินสำหรับเพาะปลูก"],a:1,exp:"ทุนในทางเศรษฐศาสตร์ หมายถึง สิ่งปลูกสร้าง เครื่องจักร เครื่องมือที่ใช้ในการผลิตสินค้า"},
+  {id:11,cat:"เศรษฐศาสตร์",q:"การนำไข่ไก่ไปแลกกับผักของเพื่อนบ้าน เรียกว่าระบบอะไร?",ctx:"",c:["ระบบการซื้อขาย","ระบบเงินตรา","ระบบแลกเปลี่ยนสิ่งของต่อสิ่งของ","ระบบเครดิต"],a:2,exp:"การแลกเปลี่ยนสิ่งของต่อสิ่งของ (Barter system) เป็นระบบเศรษฐกิจดั้งเดิมที่ยังไม่มีการใช้เงินตรา"},
+  {id:12,cat:"ประวัติศาสตร์",q:"วีรสตรีไทยที่ช่วยกอบกู้เมืองถลางจากข้าศึกคือท่านใด?",ctx:"",c:["ท้าวสุรนารี","ท้าวเทพกระษัตรี และ ท้าวศรีสุนทร","พระสุพรรณกัลยา","สมเด็จพระสุริโยทัย"],a:1,exp:"ท้าวเทพกระษัตรีและท้าวศรีสุนทร เป็นวีรสตรีที่ปกป้องเมืองถลาง (ภูเก็ต) จากสงครามเก้าทัพ"},
+  {id:13,cat:"ประวัติศาสตร์",q:"ประเทศไทย (สยาม) ต้องสูญเสียเอกราชให้แก่พม่าครั้งที่ 2 ในสมัยราชธานีใด?",ctx:"",c:["สุโขทัย","อยุธยา","ธนบุรี","รัตนโกสินทร์"],a:1,exp:"เสียกรุงศรีอยุธยาครั้งที่ 2 เกิดขึ้นในปี พ.ศ. 2310 ในสมัยอยุธยาตอนปลาย"},
+  {id:14,cat:"ประวัติศาสตร์",q:"วันคล้ายวันสวรรคตของพระบาทสมเด็จพระจุลจอมเกล้าเจ้าอยู่หัว (รัชกาลที่ 5) เรียกว่าวันอะไร?",ctx:"",c:["วันจักรี","วันปิยมหาราช","วันฉัตรมงคล","วันรัฐธรรมนูญ"],a:1,exp:"วันปิยมหาราช ตรงกับวันที่ 23 ตุลาคม ของทุกปี"},
+  {id:15,cat:"ประวัติศาสตร์",q:"มรดกโลกทางวัฒนธรรมแห่งแรกของประเทศไทยคือที่ใด?",ctx:"",c:["อุทยานประวัติศาสตร์สุโขทัย","อุทยานประวัติศาสตร์พระนครศรีอยุธยา","แหล่งโบราณคดีบ้านเชียง","ปราสาทพระวิหาร"],a:0,exp:"เมืองประวัติศาสตร์สุโขทัยและเมืองบริวาร ได้รับการขึ้นทะเบียนเป็นมรดกโลกแห่งแรกของไทยในปี 2534"},
+  {id:16,cat:"ภูมิศาสตร์",q:"จังหวัดใดตั้งอยู่ทาง 'เหนือสุด' ของประเทศไทย?",ctx:"",c:["เชียงใหม่","แม่ฮ่องสอน","เชียงราย","พะเยา"],a:2,exp:"อำเภอแม่สาย จังหวัดเชียงราย เป็นจุดที่อยู่เหนือสุดของประเทศไทย"},
+  {id:17,cat:"ภูมิศาสตร์",q:"ภาคใต้ของประเทศไทยมีลักษณะภูมิประเทศส่วนใหญ่เป็นแบบใด?",ctx:"",c:["ที่ราบลุ่มแม่น้ำกว้างใหญ่","ที่ราบสูงและดินปนทราย","เทือกเขาสูงสลับซับซ้อน","คาบสมุทรและมีทะเลขนาบสองด้าน"],a:3,exp:"ภาคใต้มีลักษณะเป็นคาบสมุทรยาวลงไป โดยมีอ่าวไทยอยู่ฝั่งตะวันออก และทะเลอันดามันอยู่ฝั่งตะวันตก"},
+  {id:18,cat:"ภูมิศาสตร์",q:"แม่น้ำสายหลักที่หล่อเลี้ยงที่ราบลุ่มภาคกลางคือแม่น้ำอะไร?",ctx:"",c:["แม่น้ำโขง","แม่น้ำเจ้าพระยา","แม่น้ำมูล","แม่น้ำตาปี"],a:1,exp:"แม่น้ำเจ้าพระยาเกิดจากการรวมกันของ ปิง วัง ยม น่าน ไหลผ่านภาคกลางลงสู่อ่าวไทย"},
+  {id:19,cat:"ภูมิศาสตร์",q:"ปรากฏการณ์ 'น้ำขึ้น-น้ำลง' เกิดจากอิทธิพลของสิ่งใดมากที่สุด?",ctx:"",c:["แรงโน้มถ่วงของโลก","แรงดึงดูดของดวงอาทิตย์","แรงดึงดูดของดวงจันทร์","การหมุนรอบตัวเองของโลก"],a:2,exp:"ดวงจันทร์อยู่ใกล้โลกมากที่สุด แรงดึงดูดของดวงจันทร์จึงส่งผลต่อการเกิดน้ำขึ้นน้ำลงบนโลกมากที่สุด"},
+  {id:20,cat:"หน้าที่พลเมือง",q:"สีขาวบนธงชาติไทย (ธงไตรรงค์) มีความหมายถึงสถาบันใด?",ctx:"",c:["ชาติ","ศาสนา","พระมหากษัตริย์","ประชาชน"],a:1,exp:"สีแดง หมายถึง ชาติ, สีขาว หมายถึง ศาสนา, สีน้ำเงิน หมายถึง พระมหากษัตริย์"}
+];
+const totalQ = Q.length;
+const L=['A','B','C','D'];
+let s={screen:'start',cur:0,ans:Array(totalQ).fill(null),done:Array(totalQ).fill(false)};
+function score(){return s.ans.reduce((t,a,i)=>t+(a===Q[i].a?1:0),0)}
+function render(){document.getElementById('app').innerHTML=s.screen==='start'?startH():s.screen==='result'?resultH():quizH()}
+
+function startH(){
+  return `<div class="start-wrap">
+    <span class="start-icon">🧭</span>
+    <div class="start-title">แบบทดสอบสังคมศึกษา ชุดที่ 2</div>
+    <div class="start-sub">สำหรับนักศึกษา สกร. ระดับประถมศึกษา<br>ทดสอบความรู้รอบตัว 5 สาระ จำนวน ${totalQ} ข้อ</div>
+    <div class="pills">
+      <span class="pill">📝 ${totalQ} ข้อ</span>
+      <span class="pill">✅ เฉลยทุกข้อ</span>
+      <span class="pill">🏆 สรุปคะแนน</span>
+      <span class="pill">🔄 ทำซ้ำได้</span>
+    </div>
+    <div class="topic-box">
+      <div class="topic-head">เนื้อหาเพิ่มเติมในชุดนี้:</div>
+      ${['สัญลักษณ์ทางศาสนา','สิทธิขั้นพื้นฐานและการปกครอง','การแลกเปลี่ยนและการออม','บุคคลสำคัญและมรดกโลก','ภูมิประเทศของไทย'].map(t=>`<div class="topic-row"><span class="topic-dot"></span>${t}</div>`).join('')}
+    </div>
+    <button class="btn-start" onclick="go()">เริ่มทำแบบทดสอบ ▶</button>
+  </div>`}
+
+function quizH(){
+  const q=Q[s.cur],pct=Math.round(((s.cur+1)/totalQ)*100),done=s.done[s.cur],sel=s.ans[s.cur];
+  const choices=q.c.map((c,i)=>{
+    let cls='choice'+(done?(i===q.a?' correct':(i===sel&&sel!==q.a?' wrong':'')):(i===sel?' selected':''));
+    return `<button class="${cls}"${done?' disabled':''} onclick="pick(${i})"><span class="cletter">${L[i]}</span>${c}</button>`;
+  }).join('');
+  const fb=done?`<div class="feedback ${sel===q.a?'ok':'no'} show">${sel===q.a?'✅ <strong>ถูกต้อง!</strong>':'❌ <strong>ไม่ถูกต้อง</strong> — คำตอบที่ถูกคือ <strong>'+q.c[q.a]+'</strong>'}<span class="fb-explain">💡 ${q.exp}</span></div>`:'';
+  const navLeft=s.cur>0?`<button class="btn btn-secondary" onclick="prev()">← ย้อนกลับ</button>`:`<div></div>`;
+  const navRight=done?(s.cur===totalQ-1?`<button class="btn btn-primary" onclick="result()">ดูผลคะแนน 🏆</button>`:`<button class="btn btn-primary" onclick="next()">ถัดไป →</button>`):(`<button class="btn btn-primary"${sel===null?' disabled':''} onclick="${sel!==null?'confirm()':''}">ตรวจคำตอบ ✓</button>`);
+  const dots=Q.map((_,i)=>{let c=i===s.cur?'dot-active':s.done[i]?(s.ans[i]===Q[i].a?'dot-ok':'dot-no'):'dot-idle';return`<button class="dot ${c}" onclick="jump(${i})">${i+1}</button>`}).join('');
+  return `
+    <div class="prog-card">
+      <div class="prog-info">
+        <div class="prog-lbl">ข้อที่ ${s.cur+1} จาก ${totalQ}</div>
+        <div class="prog-bg"><div class="prog-fill" style="width:${pct}%"></div></div>
+      </div>
+      <div class="prog-right"><div class="prog-num">${s.cur+1}/${totalQ}</div><div class="prog-sub">✅ ${s.ans.filter(a=>a!==null).length} ตอบแล้ว</div></div>
+    </div>
+    <div class="q-card">
+      <div class="q-badge">${q.cat}</div>
+      <div class="q-num-circle">${s.cur+1}</div>
+      ${q.ctx?`<div class="q-context">${q.ctx}</div>`:''}
+      <div class="q-text">${q.q}</div>
+      <div class="choices">${choices}</div>
+      ${fb}
+      <div class="nav">${navLeft}${navRight}</div>
+    </div>
+    <div class="dotnav">${dots}</div>`}
+
+function resultH(){
+  const sc=score(),pct=Math.round(sc/totalQ*100);
+  let grade,gc,msg,icon;
+  if(pct>=80){grade='ดีมาก (A)';gc='grade-A';msg='ยอดเยี่ยม! มีความรู้รอบตัวดีมาก';icon='🏆'}
+  else if(pct>=60){grade='ดี (B)';gc='grade-B';msg='ทำได้ดี ฝึกฝนเพิ่มเติมได้อีก';icon='⭐'}
+  else if(pct>=50){grade='พอใช้ (C)';gc='grade-C';msg='ผ่านเกณฑ์ ควรทบทวนเพิ่มเติม';icon='📘'}
+  else{grade='ต้องปรับปรุง (D)';gc='grade-D';msg='ควรทบทวนเนื้อหาและฝึกทำบ่อยๆ';icon='📖'}
+  const review=Q.map((q,i)=>{
+    const ok=s.ans[i]===q.a,ua=s.ans[i]!==null?q.c[s.ans[i]]:'(ไม่ตอบ)';
+    return`<div class="ri"><div class="ri-q"><span class="ri-tick ${ok?'ri-ok':'ri-no'}">${ok?'✓':'✗'}</span>ข้อ ${i+1}: ${q.q}</div><div class="ri-user">คุณตอบ: ${ua}</div><div class="ri-correct">✅ เฉลย: ${q.c[q.a]}</div><div class="ri-exp">💡 ${q.exp}</div></div>`}).join('');
+  return`<div class="result-wrap">
+    <span class="result-icon">${icon}</span>
+    <div class="score-big">${sc}</div>
+    <div class="score-denom">จาก ${totalQ} ข้อ</div>
+    <div class="score-pct">${pct}%</div>
+    <span class="grade-pill ${gc}">${grade}</span>
+    <div class="result-msg">${msg}</div>
+    <div class="stats">
+      <div class="sbox"><div class="snum green">${sc}</div><div class="slbl">ตอบถูก</div></div>
+      <div class="sbox"><div class="snum red">${totalQ-sc}</div><div class="slbl">ตอบผิด</div></div>
+      <div class="sbox"><div class="snum theme">${pct}%</div><div class="slbl">คะแนน</div></div>
+    </div>
+    <button class="btn-retry" onclick="reset()">🔄 ทำแบบทดสอบอีกครั้ง</button>
+    <div class="review-title">📋 เฉลยและคำอธิบายทุกข้อ</div>
+    ${review}
+  </div>`}
+
+function go(){s.screen='quiz';render()}
+function pick(i){if(s.done[s.cur])return;s.ans[s.cur]=i;render()}
+function confirm(){if(s.ans[s.cur]===null)return;s.done[s.cur]=true;render()}
+function next(){if(s.cur<totalQ-1){s.cur++;render()}}
+function prev(){if(s.cur>0){s.cur--;render()}}
+function jump(i){s.cur=i;render()}
+function result(){s.screen='result';render()}
+function reset(){s={screen:'start',cur:0,ans:Array(totalQ).fill(null),done:Array(totalQ).fill(false)};render()}
+render();
+</script>
+</body>
+</html>
