@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>แบบทดสอบสังคมศึกษา สกร. ระดับประถมศึกษา</title>
-<meta name="description" content="แบบทดสอบสังคมศึกษา 20 ข้อ สำหรับนักศึกษา สกร. ระดับประถมศึกษา พร้อมเฉลยและคำอธิบาย">
+<title>แบบทดสอบสังคมศึกษา ชุดที่ 1 (สกร. ประถมศึกษา)</title>
+<meta name="description" content="แบบทดสอบสังคมศึกษา ชุดที่ 1 จำนวน 20 ข้อ สำหรับนักศึกษา สกร. ระดับประถมศึกษา พร้อมระบบสรุปคะแนนและเฉลย">
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
@@ -19,8 +19,8 @@
   body{font-family:'Sarabun',sans-serif;background:var(--gray-bg);min-height:100vh;color:var(--text)}
   .wrap{max-width:680px;margin:0 auto;padding:16px}
 
-  /* Header */
-  .header{background:linear-gradient(135deg,#c65e26 0%,#8b3d14 100%);border-radius:18px;padding:24px;margin-bottom:14px;color:#fff;position:relative;overflow:hidden}
+  /* Header (ใช้โทนสีฟ้า-น้ำเงิน สำหรับชุดที่ 1) */
+  .header{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-dark) 100%);border-radius:18px;padding:24px;margin-bottom:14px;color:#fff;position:relative;overflow:hidden}
   .header::before{content:'';position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.07)}
   .header::after{content:'';position:absolute;bottom:-20px;right:40px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.05)}
   .badge{display:inline-block;background:rgba(255,255,255,0.2);border-radius:99px;padding:4px 14px;font-size:12px;font-weight:600;margin-bottom:10px;letter-spacing:.5px}
@@ -32,28 +32,28 @@
   .prog-info{flex:1}
   .prog-lbl{font-size:12px;color:var(--text-muted);margin-bottom:6px}
   .prog-bg{background:var(--gray-surface);border-radius:99px;height:8px}
-  .prog-fill{background:linear-gradient(90deg,#c65e26,#e8834f);border-radius:99px;height:8px;transition:width .4s ease}
+  .prog-fill{background:linear-gradient(90deg,var(--blue),var(--blue-mid));border-radius:99px;height:8px;transition:width .4s ease}
   .prog-right{text-align:right}
   .prog-num{font-size:14px;font-weight:700;color:var(--text)}
   .prog-sub{font-size:12px;color:var(--text-muted);margin-top:2px}
 
   /* Question card */
   .q-card{background:var(--gray-card);border-radius:18px;border:1px solid var(--gray-border);padding:24px;margin-bottom:14px}
-  .q-badge{font-size:11px;color:#c65e26;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
-  .q-num-circle{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#fae5d9;color:#c65e26;font-size:14px;font-weight:700;margin-bottom:12px}
+  .q-badge{font-size:11px;color:var(--blue-mid);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+  .q-num-circle{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--blue-light);color:var(--blue);font-size:14px;font-weight:700;margin-bottom:12px}
   .q-text{font-size:18px;font-weight:600;line-height:1.65;margin-bottom:16px;color:var(--text)}
-  .q-context{background:var(--gray-surface);border-left:3px solid #c65e26;border-radius:0 10px 10px 0;padding:12px 16px;font-size:14px;color:var(--text-muted);margin-bottom:18px;font-style:italic;line-height:1.75}
+  .q-context{background:var(--gray-surface);border-left:3px solid var(--blue-mid);border-radius:0 10px 10px 0;padding:12px 16px;font-size:14px;color:var(--text-muted);margin-bottom:18px;font-style:italic;line-height:1.75}
 
   /* Choices */
   .choices{display:flex;flex-direction:column;gap:9px}
   .choice{background:var(--gray-card);border:1.5px solid var(--gray-border);border-radius:12px;padding:13px 16px;text-align:left;cursor:pointer;font-size:15px;font-family:'Sarabun',sans-serif;color:var(--text);transition:all .15s;display:flex;align-items:center;gap:12px;line-height:1.5;width:100%}
-  .choice:hover:not(:disabled){background:#fae5d9;border-color:#e8834f;color:#c65e26}
-  .choice.selected{background:#fae5d9;border-color:#c65e26;color:#c65e26;font-weight:500}
+  .choice:hover:not(:disabled){background:var(--blue-light);border-color:var(--blue-mid);color:var(--blue)}
+  .choice.selected{background:var(--blue-light);border-color:var(--blue);color:var(--blue);font-weight:500}
   .choice.correct{background:var(--green-light);border-color:var(--green);color:var(--green)}
   .choice.wrong{background:var(--red-light);border-color:var(--red);color:var(--red)}
   .choice:disabled{cursor:not-allowed}
   .cletter{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;background:var(--gray-surface);color:var(--text-muted);transition:all .15s}
-  .choice.selected .cletter{background:#c65e26;color:#fff}
+  .choice.selected .cletter{background:var(--blue);color:#fff}
   .choice.correct .cletter{background:var(--green);color:#fff}
   .choice.wrong .cletter{background:var(--red);color:#fff}
 
@@ -68,8 +68,8 @@
   /* Nav */
   .nav{display:flex;justify-content:space-between;align-items:center;margin-top:16px;gap:10px}
   .btn{padding:11px 26px;border-radius:10px;border:0;font-size:15px;font-weight:600;font-family:'Sarabun',sans-serif;cursor:pointer;transition:all .15s}
-  .btn-primary{background:#c65e26;color:#fff}
-  .btn-primary:hover{background:#8b3d14}
+  .btn-primary{background:var(--blue);color:#fff}
+  .btn-primary:hover{background:var(--blue-dark)}
   .btn-primary:disabled{opacity:.4;cursor:not-allowed}
   .btn-secondary{background:var(--gray-surface);color:var(--text-muted);border:1px solid var(--gray-border)}
   .btn-secondary:hover{background:#e4e1d8}
@@ -78,19 +78,19 @@
   .dotnav{display:flex;gap:5px;flex-wrap:wrap;padding:4px 2px}
   .dot{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;cursor:pointer;transition:all .12s;border:none;font-family:'Sarabun',sans-serif}
   .dot-idle{background:var(--gray-surface);color:var(--text-muted)}
-  .dot-active{background:#c65e26;color:#fff;transform:scale(1.1)}
+  .dot-active{background:var(--blue);color:#fff;transform:scale(1.1)}
   .dot-ok{background:var(--green);color:#fff}
   .dot-no{background:var(--red);color:#fff}
 
   /* Result */
   .result-wrap{background:var(--gray-card);border-radius:18px;border:1px solid var(--gray-border);padding:32px 24px;text-align:center}
   .result-icon{font-size:64px;margin-bottom:14px;display:block}
-  .score-big{font-size:56px;font-weight:700;color:#c65e26;line-height:1}
+  .score-big{font-size:56px;font-weight:700;color:var(--blue);line-height:1}
   .score-denom{font-size:22px;color:var(--text-muted);margin-bottom:6px}
   .score-pct{font-size:20px;font-weight:600;color:var(--text);margin-bottom:8px}
   .grade-pill{display:inline-block;padding:5px 20px;border-radius:99px;font-size:14px;font-weight:700;margin-bottom:16px}
   .grade-A{background:var(--green-light);color:var(--green)}
-  .grade-B{background:#fae5d9;color:#c65e26}
+  .grade-B{background:var(--blue-light);color:var(--blue-dark)}
   .grade-C{background:var(--amber-light);color:var(--amber)}
   .grade-D{background:var(--red-light);color:var(--red)}
   .result-msg{font-size:15px;color:var(--text-muted);margin-bottom:20px}
@@ -99,10 +99,10 @@
   .snum{font-size:26px;font-weight:700}
   .snum.green{color:var(--green)}
   .snum.red{color:var(--red)}
-  .snum.orange{color:#c65e26}
+  .snum.blue{color:var(--blue)}
   .slbl{font-size:12px;color:var(--text-muted);margin-top:3px}
-  .btn-retry{background:#c65e26;color:#fff;padding:13px 36px;border-radius:12px;border:0;font-size:17px;font-weight:700;font-family:'Sarabun',sans-serif;cursor:pointer;margin-bottom:28px;transition:background .15s}
-  .btn-retry:hover{background:#8b3d14}
+  .btn-retry{background:var(--blue);color:#fff;padding:13px 36px;border-radius:12px;border:0;font-size:17px;font-weight:700;font-family:'Sarabun',sans-serif;cursor:pointer;margin-bottom:28px;transition:background .15s}
+  .btn-retry:hover{background:var(--blue-dark)}
 
   /* Review */
   .review-title{font-size:17px;font-weight:700;padding-bottom:10px;border-bottom:1px solid var(--gray-border);margin-bottom:14px;text-align:left}
@@ -122,13 +122,13 @@
   .start-title{font-size:26px;font-weight:700;margin-bottom:8px}
   .start-sub{font-size:15px;color:var(--text-muted);line-height:1.75;margin-bottom:22px}
   .pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:22px}
-  .pill{background:#fae5d9;color:#c65e26;border-radius:99px;padding:5px 16px;font-size:13px;font-weight:600}
+  .pill{background:var(--blue-light);color:var(--blue);border-radius:99px;padding:5px 16px;font-size:13px;font-weight:600}
   .topic-box{background:var(--gray-surface);border-radius:12px;padding:16px;margin-bottom:24px;text-align:left}
   .topic-head{font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text)}
   .topic-row{font-size:14px;color:var(--text-muted);padding:4px 0;display:flex;align-items:center;gap:9px}
-  .topic-dot{width:7px;height:7px;border-radius:50%;background:#e8834f;flex-shrink:0}
-  .btn-start{background:#c65e26;color:#fff;padding:15px 48px;border-radius:14px;border:0;font-size:19px;font-weight:700;font-family:'Sarabun',sans-serif;cursor:pointer;box-shadow:0 6px 20px rgba(198,94,38,.3);transition:all .15s}
-  .btn-start:hover{background:#8b3d14;transform:translateY(-2px)}
+  .topic-dot{width:7px;height:7px;border-radius:50%;background:var(--blue-mid);flex-shrink:0}
+  .btn-start{background:var(--blue);color:#fff;padding:15px 48px;border-radius:14px;border:0;font-size:19px;font-weight:700;font-family:'Sarabun',sans-serif;cursor:pointer;box-shadow:0 6px 20px rgba(24,95,165,.3);transition:all .15s}
+  .btn-start:hover{background:var(--blue-dark);transform:translateY(-2px)}
 
   @media(max-width:480px){
     .wrap{padding:10px}
@@ -142,35 +142,35 @@
 <body>
 <div class="wrap">
   <div class="header">
-    <div class="badge">สกร. • ระดับประถมศึกษา</div>
-    <div class="htitle">🌏 แบบทดสอบสังคมศึกษา</div>
-    <div class="hsub">Social Studies Quiz — 20 ข้อ • ครอบคลุมสาระการเรียนรู้พื้นฐาน</div>
+    <div class="badge">สกร. • ระดับประถมศึกษา (ชุดที่ 1)</div>
+    <div class="htitle">🌍 แบบทดสอบสังคมศึกษา</div>
+    <div class="hsub">Social Studies Quiz 1 — 20 ข้อ • ตรวจคำตอบและสรุปผลอัตโนมัติ</div>
   </div>
   <div id="app"></div>
 </div>
 
 <script>
 const Q=[
-  {id:1,cat:"ศาสนา",q:"ศาสนาพุทธมีแหล่งกำเนิดที่ประเทศใด?",ctx:"",c:["ประเทศไทย","ประเทศอินเดีย","ประเทศจีน","ประเทศญี่ปุ่น"],a:1,exp:"พระพุทธศาสนามีจุดกำเนิดในชมพูทวีป หรือประเทศอินเดียในปัจจุบัน"},
-  {id:2,cat:"ศาสนา",q:"คัมภีร์ทางพระพุทธศาสนาเรียกว่าอะไร?",ctx:"",c:["คัมภีร์ไบเบิล","คัมภีร์อัลกุรอาน","พระไตรปิฎก","คัมภีร์พระเวท"],a:2,exp:"พระไตรปิฎก เป็นคัมภีร์ที่รวบรวมคำสอนของพระพุทธเจ้า"},
-  {id:3,cat:"ศาสนา",q:"วันเพ็ญเดือน 6 เป็นวันสำคัญทางศาสนาคือวันใด?",ctx:"",c:["วันวิสาขบูชา","วันมาฆบูชา","วันอาสาฬหบูชา","วันเข้าพรรษา"],a:0,exp:"วันวิสาขบูชา ตรงกับวันขึ้น 15 ค่ำ เดือน 6 เป็นวันประสูติ ตรัสรู้ และปรินิพพานของพระพุทธเจ้า"},
-  {id:4,cat:"หน้าที่พลเมือง",q:"การกระทำในข้อใดแสดงถึงการเป็นพลเมืองดี?",ctx:"",c:["ทิ้งขยะลงแม่น้ำ","ข้ามถนนตรงทางม้าลาย","แซงคิวซื้ออาหาร","ขีดเขียนกำแพงที่สาธารณะ"],a:1,exp:"การเคารพกฎจราจรและกฎระเบียบสังคมเป็นการแสดงออกถึงการเป็นพลเมืองดี"},
-  {id:5,cat:"หน้าที่พลเมือง",q:"สถาบันหลักของชาติไทยประกอบด้วยอะไรบ้าง?",ctx:"",c:["ชาติ ศาสนา พระมหากษัตริย์","ประชาชน ทหาร ตำรวจ","รัฐบาล รัฐสภา ศาล","วัด โรงเรียน ชุมชน"],a:0,exp:"สถาบันหลักของชาติไทย คือ ชาติ ศาสนา และพระมหากษัตริย์ (ธงไตรรงค์มีความหมายถึง 3 สถาบันนี้)"},
-  {id:6,cat:"หน้าที่พลเมือง",q:"อำนาจอธิปไตยแบ่งออกเป็นกี่ส่วนหลัก?",ctx:"",c:["2 ส่วน","3 ส่วน","4 ส่วน","5 ส่วน"],a:1,exp:"แบ่งเป็น 3 ส่วน คือ อำนาจนิติบัญญัติ อำนาจบริหาร และอำนาจตุลาการ"},
-  {id:7,cat:"เศรษฐศาสตร์",q:"หลักการทรงงานของรัชกาลที่ 9 ที่เน้นการพึ่งพาตนเองคือข้อใด?",ctx:"",c:["นโยบายประชารัฐ","ปรัชญาของเศรษฐกิจพอเพียง","ระบบทุนนิยม","ระบบสังคมนิยม"],a:1,exp:"ปรัชญาของเศรษฐกิจพอเพียง เน้นความพอประมาณ มีเหตุผล และมีภูมิคุ้มกันในตัวที่ดี"},
-  {id:8,cat:"เศรษฐศาสตร์",q:"สิ่งใดในข้อต่อไปนี้จัดอยู่ใน 'ปัจจัย 4' ที่จำเป็นต่อการดำรงชีวิต?",ctx:"",c:["โทรศัพท์มือถือ","รถยนต์","ยารักษาโรค","เครื่องประดับ"],a:2,exp:"ปัจจัย 4 ประกอบด้วย อาหาร ที่อยู่อาศัย เครื่องนุ่งห่ม และยารักษาโรค"},
-  {id:9,cat:"เศรษฐศาสตร์",q:"การทำบัญชีรายรับ-รายจ่ายมีประโยชน์อย่างไร?",ctx:"",c:["ทำให้มีรายได้เพิ่มขึ้นทันที","รู้จักวางแผนการใช้เงิน","ทำให้ได้รับการยกย่อง","ทำให้เรียนเก่งขึ้น"],a:1,exp:"ช่วยให้รู้ว่าเงินใช้จ่ายไปกับอะไรบ้าง และสามารถวางแผนการออมเงินในอนาคตได้"},
-  {id:10,cat:"ประวัติศาสตร์",q:"ใครคือผู้ก่อตั้งอาณาจักรสุโขทัย?",ctx:"",c:["พ่อขุนรามคำแหงมหาราช","พ่อขุนศรีอินทราทิตย์","สมเด็จพระนเรศวรมหาราช","สมเด็จพระเจ้าตากสินมหาราช"],a:1,exp:"พ่อขุนศรีอินทราทิตย์ เป็นปฐมกษัตริย์แห่งราชวงศ์พระร่วง ผู้สถาปนากรุงสุโขทัย"},
-  {id:11,cat:"ประวัติศาสตร์",q:"เมืองหลวงของประเทศไทยก่อนที่จะเป็น 'กรุงรัตนโกสินทร์' คือที่ใด?",ctx:"",c:["กรุงสุโขทัย","กรุงศรีอยุธยา","กรุงธนบุรี","นครพิงค์เชียงใหม่"],a:2,exp:"เรียงลำดับเมืองหลวง: สุโขทัย -> อยุธยา -> ธนบุรี -> รัตนโกสินทร์"},
-  {id:12,cat:"ประวัติศาสตร์",q:"ประเพณีสงกรานต์ตรงกับเดือนใดของทุกปี?",ctx:"",c:["มกราคม","เมษายน","กรกฎาคม","ธันวาคม"],a:1,exp:"วันสงกรานต์ ถือเป็นวันขึ้นปีใหม่ไทย ตรงกับวันที่ 13-15 เมษายน ของทุกปี"},
-  {id:13,cat:"ภูมิศาสตร์",q:"ทวีปใดมีขนาดใหญ่ที่สุดในโลก?",ctx:"",c:["ทวีปยุโรป","ทวีปออสเตรเลีย","ทวีปเอเชีย","ทวีปแอฟริกา"],a:2,exp:"ทวีปเอเชียเป็นทวีปที่มีพื้นที่ใหญ่ที่สุดและมีประชากรมากที่สุดในโลก"},
-  {id:14,cat:"ภูมิศาสตร์",q:"เครื่องมือทางภูมิศาสตร์ชนิดใดที่ใช้ดูตำแหน่งของประเทศต่างๆ บนลักษณะที่ใกล้เคียงความจริงที่สุด?",ctx:"",c:["เข็มทิศ","ลูกโลกจำลอง","แผนที่กระดาษ","เครื่องวัดอุณหภูมิ"],a:1,exp:"ลูกโลกจำลอง เป็นแบบจำลองของโลกที่แสดงสัณฐานโค้งกลมและตำแหน่งที่ตั้งได้ใกล้เคียงความจริง"},
-  {id:15,cat:"ภูมิศาสตร์",q:"ทรัพยากรธรรมชาติในข้อใด 'ใช้แล้วหมดไป' ไม่สามารถสร้างขึ้นใหม่ได้ในเวลาอันสั้น?",ctx:"",c:["น้ำ","อากาศ","แสงอาทิตย์","ถ่านหิน"],a:3,exp:"ถ่านหิน ก๊าซธรรมชาติ และน้ำมันปิโตรเลียม เป็นทรัพยากรที่ใช้แล้วหมดไป ต้องใช้เวลาหลายล้านปีในการเกิดใหม่"},
-  {id:16,cat:"หน้าที่พลเมือง",q:"ภาษีประเภทใดที่ผู้มีรายได้ทุกคนมีหน้าที่ต้องนำส่งให้แก่รัฐ?",ctx:"",c:["ภาษีมูลค่าเพิ่ม","ภาษีเงินได้บุคคลธรรมดา","ภาษีศุลกากร","ภาษีป้าย"],a:1,exp:"ภาษีเงินได้บุคคลธรรมดา เป็นภาษีทางตรงที่เก็บจากบุคคลที่มีรายได้ถึงเกณฑ์ตามที่กฎหมายกำหนด"},
-  {id:17,cat:"ประวัติศาสตร์",q:"พระมหากษัตริย์ไทยองค์ปัจจุบันแห่งราชวงศ์จักรี คือรัชกาลที่เท่าใด?",ctx:"",c:["รัชกาลที่ 8","รัชกาลที่ 9","รัชกาลที่ 10","รัชกาลที่ 11"],a:2,exp:"พระบาทสมเด็จพระวชิรเกล้าเจ้าอยู่หัว ทรงเป็นพระมหากษัตริย์รัชกาลที่ 10 แห่งราชวงศ์จักรี"},
-  {id:18,cat:"หน้าที่พลเมือง",q:"การเลือกตั้งตัวแทนเข้าไปบริหารประเทศ เป็นลักษณะของการปกครองระบอบใด?",ctx:"",c:["ระบอบเผด็จการ","ระบอบคอมมิวนิสต์","ระบอบสมบูรณาญาสิทธิราชย์","ระบอบประชาธิปไตย"],a:3,exp:"ประชาธิปไตย เป็นระบอบที่ประชาชนมีสิทธิเลือกตัวแทนเข้าไปทำหน้าที่แทนตนในรัฐสภาหรือรัฐบาล"},
-  {id:19,cat:"เศรษฐศาสตร์",q:"อาชีพดั้งเดิมและเป็นอาชีพส่วนใหญ่ของคนไทยตั้งแต่ในอดีตคืออาชีพใด?",ctx:"",c:["ค้าขาย","เกษตรกรรม","รับราชการ","อุตสาหกรรม"],a:1,exp:"ไทยมีลักษณะภูมิประเทศและภูมิอากาศเอื้ออำนวยต่อการทำการเกษตร (ปลูกข้าว) มาแต่อดีต"},
-  {id:20,cat:"ภูมิศาสตร์",q:"ภูมิภาคใดของประเทศไทยที่มีภูมิประเทศเป็นภูเขาสูงสลับซับซ้อนมากที่สุด?",ctx:"",c:["ภาคเหนือ","ภาคกลาง","ภาคตะวันออกเฉียงเหนือ","ภาคใต้"],a:0,exp:"ภาคเหนือมีภูมิประเทศส่วนใหญ่เป็นเทือกเขาสูงสลับกับหุบเขาและเป็นแหล่งกำเนิดแม่น้ำสายสำคัญ"}
+  {id:1,cat:"ศาสนา",q:"วันมาฆบูชา มีเหตุการณ์สำคัญใดเกิดขึ้นในทางพระพุทธศาสนา?",ctx:"",c:["พระสงฆ์ 1,250 รูปมาประชุมกันโดยมิได้นัดหมาย","พระพุทธเจ้าทรงแสดงปฐมเทศนา","พระพุทธเจ้าประสูติ ตรัสรู้ และปรินิพพาน","เป็นวันขึ้นปีใหม่ของชาวพุทธ"],a:0,exp:"วันมาฆบูชา (วันเพ็ญเดือน 3) เป็นวันที่พระสงฆ์สาวกจำนวน 1,250 รูป มาประชุมพร้อมกันโดยมิได้นัดหมาย หรือเรียกว่าวันจาตุรงคสันนิบาต"},
+  {id:2,cat:"ศาสนา",q:"การทำความดี ละเว้นความชั่ว และทำจิตใจให้บริสุทธิ์ จัดเป็นหลักธรรมข้อใด?",ctx:"",c:["อริยสัจ 4","โอวาท 3","เบญจศีล","ไตรสิกขา"],a:1,exp:"โอวาท 3 คือ หัวใจของพระพุทธศาสนา ประกอบด้วย การไม่ทำบาปทั้งปวง การทำกุศลให้ถึงพร้อม และการทำจิตใจให้บริสุทธิ์"},
+  {id:3,cat:"ศาสนา",q:"การปฏิบัติตนตามหลัก 'เบญจศีล' (ศีล 5) ข้อที่ 1 ห้ามปฏิบัติสิ่งใด?",ctx:"",c:["ห้ามพูดปด","ห้ามลักทรัพย์","ห้ามฆ่าสัตว์ตัดชีวิต","ห้ามดื่มสุราของมึนเมา"],a:2,exp:"ศีลข้อที่ 1 คือ ปาณาติปาตา เวรมณี หมายถึง การละเว้นจากการฆ่าสัตว์หรือเบียดเบียนชีวิตผู้อื่น"},
+  {id:4,cat:"หน้าที่พลเมือง",q:"วันสำคัญใดจัดขึ้นเพื่อระลึกถึงพระคุณของครูอาจารย์ ตรงกับวันที่ 16 มกราคม ของทุกปี?",ctx:"",c:["วันครู","วันเด็กแห่งชาติ","วันไหว้ครู","วันวิทยาศาสตร์"],a:0,exp:"วันครูแห่งชาติ ตรงกับวันที่ 16 มกราคม ของทุกปี จัดขึ้นเพื่อระลึกถึงพระคุณของครู"},
+  {id:5,cat:"หน้าที่พลเมือง",q:"การปฏิบัติตนตามกฎจราจร เช่น การข้ามถนนตรงทางม้าลาย แสดงถึงการเป็นพลเมืองดีในด้านใด?",ctx:"",c:["การมีความคิดสร้างสรรค์","การเคารพกฎหมายและระเบียบสังคม","การประหยัดอดออม","การอนุรักษ์วัฒนธรรม"],a:1,exp:"การปฏิบัติตามกฎจราจรเป็นหน้าที่พื้นฐานของพลเมืองดีในการเคารพและปฏิบัติตามกฎหมายของบ้านเมือง"},
+  {id:6,cat:"หน้าที่พลเมือง",q:"ประเพณีลอยกระทงจัดขึ้นในวันเพ็ญเดือนสิบสอง โดยมีวัตถุประสงค์หลักเพื่ออะไร?",ctx:"",c:["เพื่อความสนุกสนานและรื่นเริง","เพื่อขอขมาพระแม่คงคาและระลึกถึงพระคุณของน้ำ","เพื่อกราบไหว้บรรพบุรุษที่ล่วงลับ","เพื่อเป็นการแข่งขันประกวดนางนพมาศ"],a:1,exp:"ประเพณีลอยกระทงจัดขึ้นเพื่อเป็นการขอขมาต่อพระแม่คงคา (แม่น้ำ) ที่เราได้อุปโภคบริโภคและอาจทำให้สกปรก"},
+  {id:7,cat:"หน้าที่พลเมือง",q:"สัญลักษณ์ของความเป็นชาติไทยที่แสดงออกผ่านเสียงเพลง และเราต้องยืนตรงเคารพในเวลา 08.00 น. และ 18.00 น. คืออะไร?",ctx:"",c:["เพลงสรรเสริญพระบารมี","เพลงชาติไทย","เพลงกราวกีฬา","เพลงมหาฤกษ์"],a:1,exp:"เพลงชาติไทยเป็นสัญลักษณ์ที่แสดงถึงความสามัคคีและความเป็นเอกราชของชาติไทย"},
+  {id:8,cat:"เศรษฐศาสตร์",q:"การปฏิบัติตามแนวคิด 'ปรัชญาเศรษฐกิจพอเพียง' ขั้นเริ่มต้นควรเริ่มจากที่ใด?",ctx:"",c:["เริ่มจากชุมชน","เริ่มจากโรงเรียน","เริ่มจากตนเองและครอบครัว","เริ่มจากระดับประเทศ"],a:2,exp:"การสร้างความพอเพียงต้องเริ่มต้นที่ตนเองและครอบครัวก่อน โดยการรู้จักความพอประมาณ มีเหตุผล และมีภูมิคุ้มกัน"},
+  {id:9,cat:"เศรษฐศาสตร์",q:"ผู้ที่นำเงินไปฝากไว้กับธนาคารพาณิชย์ จะได้รับสิ่งใดเป็นผลตอบแทนหลัก?",ctx:"",c:["ของรางวัลพิเศษ","เงินกู้ยืม","ดอกเบี้ยเงินฝาก","หุ้นส่วนของธนาคาร"],a:2,exp:"ผลตอบแทนที่ผู้ฝากเงินจะได้รับจากธนาคารคือ 'ดอกเบี้ยเงินฝาก' ตามอัตราที่ธนาคารกำหนด"},
+  {id:10,cat:"เศรษฐศาสตร์",q:"การเลือกซื้อสินค้าชนิดเดียวกัน ควรพิจารณาจากสิ่งใดเป็นอันดับแรกเพื่อให้คุ้มค่าที่สุด?",ctx:"",c:["ความสวยงามของบรรจุภัณฑ์","โฆษณาทางทีวีและอินเทอร์เน็ต","คุณภาพและราคาที่เหมาะสมสมเหตุสมผล","ของแถมที่มากับสินค้า"],a:2,exp:"การบริโภคที่ดีและคุ้มค่า ควรคำนึงถึงประโยชน์ คุณภาพ และราคาที่เหมาะสมเป็นหลัก"},
+  {id:11,cat:"เศรษฐศาสตร์",q:"ข้อใดจัดเป็น 'ทรัพยากรส่วนรวม' ที่ทุกคนในชุมชนมีสิทธิใช้ประโยชน์ร่วมกัน?",ctx:"",c:["โทรศัพท์มือถือส่วนตัว","รถยนต์ของเพื่อนบ้าน","สวนสาธารณะในชุมชน","บ้านพักอาศัยของเรา"],a:2,exp:"สวนสาธารณะ ถนน หรือสนามเด็กเล่นของหมู่บ้าน จัดเป็นทรัพย์สินส่วนรวมที่ทุกคนใช้ประโยชน์ร่วมกันได้"},
+  {id:12,cat:"ประวัติศาสตร์",q:"พระมหากษัตริย์ไทยผู้ทรงประดิษฐ์อักษรไทย (ลายสือไทย) คือพระองค์ใด?",ctx:"",c:["พ่อขุนศรีอินทราทิตย์","พ่อขุนรามคำแหงมหาราช","สมเด็จพระนเรศวรมหาราช","สมเด็จพระนารายณ์มหาราช"],a:1,exp:"พ่อขุนรามคำแหงมหาราช ทรงประดิษฐ์อักษรไทยขึ้นเมื่อ พ.ศ. 1826 ทำให้ชาติไทยมีภาษาและอักษรเป็นของตนเอง"},
+  {id:13,cat:"ประวัติศาสตร์",q:"ราชธานีหรือเมืองหลวงแห่งแรกอย่างเป็นทางการของชาติไทยคือเมืองใด?",ctx:"",c:["สุโขทัย","อยุธยา","ธนบุรี","รัตนโกสินทร์"],a:0,exp:"อาณาจักรสุโขทัยได้รับการสถาปนาเป็นราชธานีแห่งแรกของไทย โดยมีพ่อขุนศรีอินทราทิตย์เป็นปฐมกษัตริย์"},
+  {id:14,cat:"ประวัติศาสตร์",q:"วันสงกรานต์ของไทย ถือเป็นวันขึ้นปีใหม่ตามประเพณีดั้งเดิม ตรงกับเดือนใดของทุกปี?",ctx:"",c:["มกราคม","เมษายน","พฤษภาคม","ธันวาคม"],a:1,exp:"วันสงกรานต์ตรงกับวันที่ 13-15 เมษายน ของทุกปี ถือเป็นวันขึ้นปีใหม่ไทยตามประเพณีโบราณ"},
+  {id:15,cat:"ประวัติศาสตร์",q:"บุคคลใดได้รับการยกย่องให้เป็น 'บิดาแห่งประวัติศาสตร์ไทย'?",ctx:"",c:["สมเด็จพระเจ้าบรมวงศ์เธอ กรมพระยาดำรงราชานุภาพ","สุนทรภู่","พระยาอนุมานราชธน","หลวงประดิษฐไพเราะ"],a:0,exp:"สมเด็จฯ กรมพระยาดำรงราชานุภาพ ทรงมีผลงานด้านประวัติศาสตร์และโบราณคดีไทยมากมายจนได้รับการยกย่องเป็นบิดาแห่งประวัติศาสตร์ไทย"},
+  {id:16,cat:"ภูมิศาสตร์",q:"เครื่องมือทางภูมิศาสตร์ชนิดใดที่ให้ข้อมูลจำลองลักษณะของผิวโลกได้เสมือนจริงและมีลักษณะเป็นทรงกลม?",ctx:"",c:["แผนที่แบน","ลูกโลกจำลอง","เข็มทิศ","กล้องส่องทางไกล"],a:1,exp:"ลูกโลกจำลองคือหุ่นจำลองของโลกที่สะท้อนสัดส่วน รูปร่าง และตำแหน่งของทวีปและมหาสมุทรได้อย่างถูกต้องที่สุด"},
+  {id:17,cat:"ภูมิศาสตร์",q:"หากเราหันหน้าไปทางทิศตะวันออก ด้านหลังของเราจะเป็นทิศใด?",ctx:"",c:["ทิศเหนือ","ทิศใต้","ทิศตะวันตก","ทิศตะวันออกเฉียงเหนือ"],a:2,exp:"ทิศตะวันออกจะอยู่ตรงข้ามกับทิศตะวันตกเสมอ ดังนั้นถ้าหันหน้าหาทิศตะวันออก ด้านหลังจะเป็นทิศตะวันตก"},
+  {id:18,cat:"ภูมิศาสตร์",q:"การตัดไม้ทำลายป่าบริเวณพื้นที่ต้นน้ำ จะส่งผลให้เกิดภัยธรรมชาติใดร้ายแรงที่สุดในฤดูฝน?",ctx:"",c:["แผ่นดินไหว","ภูเขาไฟระเบิด","น้ำป่าไหลหลากและดินโคลนถล่ม","ภัยแล้งอย่างรุนแรง"],a:2,exp:"ป่าไม้ช่วยชะลอและดูดซับน้ำฝน หากไม่มีต้นไม้ น้ำฝนจะไหลบ่าลงมาอย่างรวดเร็วเกิดเป็นน้ำป่าและดินถล่ม"},
+  {id:19,cat:"ภูมิศาสตร์",q:"ขยะประเภทใดที่ควรแยกใส่ในถังขยะสีเขียว (ขยะย่อยสลายหรือขยะอินทรีย์)?",ctx:"",c:["ขวดแก้วและกระป๋องน้ำอัดลม","เศษอาหารและเปลือกผลไม้","ถุงพลาสติกและโฟม","ถ่านไฟฉายและหลอดไฟ"],a:1,exp:"ถังขยะสีเขียวใช้สำหรับขยะอินทรีย์ที่ย่อยสลายได้ง่าย เช่น เศษอาหาร เศษผัก เปลือกผลไม้ และใบไม้"},
+  {id:20,cat:"หน้าที่พลเมือง",q:"หากนักเรียนเก็บกระเป๋าเงินได้ในโรงเรียน สิ่งที่ควรกระทำเป็นอันดับแรกตามหลักคุณธรรมคืออะไร?",ctx:"",c:["นำเงินข้างในไปซื้อขนมแบ่งเพื่อน","เก็บเงียบไว้กับตัวไม่บอกใคร","นำไปมอบให้ครูประชาสัมพันธ์เพื่อประกาศตามหาเจ้าของ","วางทิ้งไว้ที่เดิมไม่ต้องสนใจ"],a:2,exp:"การนำของที่เก็บได้ไปแจ้งคุณครูเพื่อคืนเจ้าของ แสดงถึงความซื่อสัตย์สุจริตอันเป็นคุณธรรมพื้นฐานของพลเมืองดี"}
 ];
 const totalQ = Q.length;
 const L=['A','B','C','D'];
@@ -180,9 +180,9 @@ function render(){document.getElementById('app').innerHTML=s.screen==='start'?st
 
 function startH(){
   return `<div class="start-wrap">
-    <span class="start-icon">🌏</span>
-    <div class="start-title">แบบทดสอบสังคมศึกษา</div>
-    <div class="start-sub">สำหรับนักศึกษา สกร. ระดับประถมศึกษา<br>ทดสอบความรู้รอบตัว 5 สาระ จำนวน ${totalQ} ข้อ</div>
+    <span class="start-icon">🌍</span>
+    <div class="start-title">แบบทดสอบสังคมศึกษา ชุดที่ 1</div>
+    <div class="start-sub">สำหรับนักศึกษา สกร. ระดับประถมศึกษา<br>ทดสอบความรู้พื้นฐาน 5 สาระวิชา จำนวน ${totalQ} ข้อ</div>
     <div class="pills">
       <span class="pill">📝 ${totalQ} ข้อ</span>
       <span class="pill">✅ เฉลยทุกข้อ</span>
@@ -190,8 +190,8 @@ function startH(){
       <span class="pill">🔄 ทำซ้ำได้</span>
     </div>
     <div class="topic-box">
-      <div class="topic-head">สาระการเรียนรู้ที่ครอบคลุม:</div>
-      ${['ศาสนา ศีลธรรม จริยธรรม','หน้าที่พลเมืองและวัฒนธรรม','เศรษฐศาสตร์เบื้องต้น','ประวัติศาสตร์ไทย','ภูมิศาสตร์'].map(t=>`<div class="topic-row"><span class="topic-dot"></span>${t}</div>`).join('')}
+      <div class="topic-head">หัวข้อหลักในชุดนี้:</div>
+      ${['วันสำคัญและหลักธรรมทางศาสนา','การปฏิบัติตนและประเพณีไทย','เศรษฐกิจพอเพียงและการออมเงิน','ประวัติศาสตร์และบุคคลสำคัญของไทย','เครื่องมือภูมิศาสตร์และสิ่งแวดล้อม'].map(t=>`<div class="topic-row"><span class="topic-dot"></span>${t}</div>`).join('')}
     </div>
     <button class="btn-start" onclick="go()">เริ่มทำแบบทดสอบ ▶</button>
   </div>`}
@@ -228,14 +228,15 @@ function quizH(){
 function resultH(){
   const sc=score(),pct=Math.round(sc/totalQ*100);
   let grade,gc,msg,icon;
-  if(pct>=80){grade='ดีมาก (A)';gc='grade-A';msg='ยอดเยี่ยม! มีความรู้รอบตัวดีมาก';icon='🏆'}
-  else if(pct>=60){grade='ดี (B)';gc='grade-B';msg='ทำได้ดี ฝึกฝนเพิ่มเติมได้อีก';icon='⭐'}
-  else if(pct>=50){grade='พอใช้ (C)';gc='grade-C';msg='ผ่านเกณฑ์ ควรทบทวนเพิ่มเติม';icon='📘'}
-  else{grade='ต้องปรับปรุง (D)';gc='grade-D';msg='ควรทบทวนเนื้อหาและฝึกทำบ่อยๆ';icon='📖'}
+  if(pct>=80){grade='ดีมาก (A)';gc='grade-A';msg='ยอดเยี่ยม! มีความรู้รอบตัวดีมากครับ';icon='🏆'}
+  else if(pct>=60){grade='ดี (B)';gc='grade-B';msg='ทำได้ดีเลยครับ ฝึกฝนเพิ่มเติมอีกนิดนะ';icon='⭐'}
+  else if(pct>=50){grade='พอใช้ (C)';gc='grade-C';msg='ผ่านเกณฑ์ขั้นต่ำ ควรทบทวนเนื้อหาเพิ่มเติม';icon='📘'}
+  else{grade='ต้องปรับปรุง (D)';gc='grade-D';msg='ตั้งใจศึกษาใหม่และลองทำซ้ำอีกครั้งนะครับ';icon='📖'}
   const review=Q.map((q,i)=>{
     const ok=s.ans[i]===q.a,ua=s.ans[i]!==null?q.c[s.ans[i]]:'(ไม่ตอบ)';
     return`<div class="ri"><div class="ri-q"><span class="ri-tick ${ok?'ri-ok':'ri-no'}">${ok?'✓':'✗'}</span>ข้อ ${i+1}: ${q.q}</div><div class="ri-user">คุณตอบ: ${ua}</div><div class="ri-correct">✅ เฉลย: ${q.c[q.a]}</div><div class="ri-exp">💡 ${q.exp}</div></div>`}).join('');
-  return`<div class="result-wrap">
+  return `
+  <div class="result-wrap">
     <span class="result-icon">${icon}</span>
     <div class="score-big">${sc}</div>
     <div class="score-denom">จาก ${totalQ} ข้อ</div>
@@ -245,7 +246,7 @@ function resultH(){
     <div class="stats">
       <div class="sbox"><div class="snum green">${sc}</div><div class="slbl">ตอบถูก</div></div>
       <div class="sbox"><div class="snum red">${totalQ-sc}</div><div class="slbl">ตอบผิด</div></div>
-      <div class="sbox"><div class="snum orange">${pct}%</div><div class="slbl">คะแนน</div></div>
+      <div class="sbox"><div class="snum blue">${pct}%</div><div class="slbl">คะแนน</div></div>
     </div>
     <button class="btn-retry" onclick="reset()">🔄 ทำแบบทดสอบอีกครั้ง</button>
     <div class="review-title">📋 เฉลยและคำอธิบายทุกข้อ</div>
@@ -254,10 +255,11 @@ function resultH(){
 
 function go(){s.screen='quiz';render()}
 function pick(i){if(s.done[s.cur])return;s.ans[s.cur]=i;render()}
-function confirm(){if(s.ans[s.cur]===null)return;s.done[s.cur]=true;render()}
+function confirm(){if(s.ans[s.cur]===null)return;s.done[s.cur];s.done[s.cur]=true;render()}
 function next(){if(s.cur<totalQ-1){s.cur++;render()}}
 function prev(){if(s.cur>0){s.cur--;render()}}
 function jump(i){s.cur=i;render()}
+function result(){s.screen='result';render()}
 function reset(){s={screen:'start',cur:0,ans:Array(totalQ).fill(null),done:Array(totalQ).fill(false)};render()}
 render();
 </script>
