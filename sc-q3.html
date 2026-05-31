@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แบบทดสอบ N-NET สังคมศึกษา ประถมศึกษา (ชุดที่ 3)</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght=400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #059669; --primary-dark: #064e3b; --primary-light: #ecfdf5;
+    --green: #166534; --green-light: #f0fdf4;
+    --red: #991b1b; --red-light: #fef2f2;
+    --gray-bg: #f8fafc; --gray-card: #ffffff; --gray-border: #e2e8f0;
+    --text: #0f172a; --text-muted: #475569;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Sarabun', sans-serif; background: var(--gray-bg); color: var(--text); padding-bottom: 60px; }
+  .container { max-width: 680px; margin: 0 auto; padding: 16px; }
+  
+  .header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 16px; padding: 24px; color: #fff; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(5,150,105,0.15); }
+  .badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 10px; }
+  .title { font-size: 22px; font-weight: 700; margin-bottom: 5px; line-height: 1.4; }
+  .subtitle { font-size: 14px; opacity: 0.9; }
+
+  .card { background: var(--gray-card); border-radius: 16px; padding: 24px; border: 1px solid var(--gray-border); margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+  
+  .inp-group { margin-bottom: 16px; text-align: left; }
+  .inp-label { display: block; font-size: 14px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; }
+  .inp-text { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--gray-border); font-family: 'Sarabun', sans-serif; font-size: 16px; background: #fdfdfd; }
+  
+  .btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-family: 'Sarabun', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:disabled { background: #cbd5e1; cursor: not-allowed; }
+  .btn-secondary { background: #e2e8f0; color: var(--text); width: 48%; }
+  
+  .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; gap: 10px; }
+  .nav-buttons .btn-primary { width: 48%; }
+
+  .prog-text { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+  .prog-bar { background: #e2e8f0; height: 10px; border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
+  .prog-fill { background: var(--primary); height: 100%; width: 0%; transition: 0.3s; }
+
+  .q-badge { font-size: 12px; color: var(--primary-dark); background: var(--primary-light); display: inline-block; padding: 4px 10px; border-radius: 6px; font-weight: 700; margin-bottom: 12px; }
+  .q-text { font-size: 17px; font-weight: 600; margin-bottom: 20px; line-height: 1.6; }
+
+  .choices { display: flex; flex-direction: column; gap: 12px; }
+  .choice { display: flex; align-items: center; background: #fff; border: 2px solid var(--gray-border); padding: 14px 16px; border-radius: 12px; cursor: pointer; font-size: 15px; font-family: 'Sarabun', sans-serif; text-align: left; transition: 0.2s; width: 100%; min-height: 60px; }
+  
+  .choice.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary-dark); font-weight: 600; }
+  .choice.correct { border-color: var(--green); background: var(--green-light); color: var(--green); font-weight: 600; }
+  .choice.wrong { border-color: var(--red); background: var(--red-light); color: var(--red); font-weight: 600; }
+  
+  .c-let { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: #f1f5f9; border-radius: 50%; margin-right: 15px; font-weight: 700; font-size: 14px; flex-shrink: 0; color: var(--text-muted); }
+  .choice.selected .c-let { background: var(--primary); color: #fff; }
+  .choice.correct .c-let { background: var(--green); color: #fff; }
+  .choice.wrong .c-let { background: var(--red); color: #fff; }
+
+  .feedback { padding: 16px; border-radius: 12px; font-size: 14px; line-height: 1.6; margin-top: 16px; }
+  .feedback.ok { background: var(--green-light); border: 1px solid var(--green); color: var(--green); }
+  .feedback.no { background: var(--red-light); border: 1px solid var(--red); color: var(--red); }
+  .fb-explain { font-size: 13px; color: #334155; background: rgba(255,255,255,0.7); padding: 10px; border-radius: 8px; margin-top: 10px; display: block; border-left: 3px solid var(--text-muted); }
+  
+  .analysis-card { background: #ffffff; border: 1px solid var(--gray-border); border-radius: 16px; padding: 24px; text-align: left; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+  .analysis-header { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .analysis-item { background: #f8fafc; padding: 12px 16px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid #cbd5e1; }
+  .analysis-item.weak { border-left-color: var(--red); background: #fff5f5; }
+  .analysis-item.good { border-left-color: var(--green); background: #f6fdf9; }
+  .analysis-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-bottom: 4px; }
+  .analysis-tag.weak { background: var(--red-light); color: var(--red); }
+  .analysis-tag.good { background: var(--green-light); color: var(--green); }
+
+  .grid-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 20px 0; }
+  .stat-box { background: #f8fafc; padding: 16px 10px; border-radius: 12px; text-align: center; border: 1px solid var(--gray-border); }
+  .stat-num { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+  .stat-num.green { color: var(--green); }
+  .stat-num.red { color: var(--red); }
+  .stat-num.blue { color: var(--primary); }
+  
+  .review-item { padding: 16px 0; border-bottom: 1px solid var(--gray-border); text-align: left; }
+  .review-item:last-child { border-bottom: none; }
+  .r-q { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+  .r-a { font-size: 14px; margin-bottom: 4px; }
+  .ri-tick { display: inline-block; width: 20px; font-weight: bold; margin-right: 5px; }
+  .ri-tick.ok { color: var(--green); }
+  .ri-tick.no { color: var(--red); }
+
+  .dot-nav { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; justify-content: center; }
+  .dot { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--gray-border); font-family: 'Sarabun'; font-weight: 600; font-size: 12px; cursor: pointer; background: #fff; color: var(--text); }
+  .dot.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .dot.ok { background: var(--green-light); color: var(--green); border-color: var(--green); }
+  .dot.no { background: var(--red-light); color: var(--red); border-color: var(--red); }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="badge">N-NET • สกร.โนนสัง ประถมศึกษา (ชุดที่ 3)</div>
+    <div class="title">🗺️ แบบทดสอบวิชาสังคมศึกษา (ระดับประยุกต์ใช้)</div>
+    <div class="subtitle" id="subtitle-text">เน้นทักษะกระบวนการคิดวิเคราะห์ หน้าที่พลเมือง เศรษฐศาสตร์ และสิ่งแวดล้อมชุมชน</div>
+  </div>
+  
+  <div id="app"></div>
+</div>
+
+<script>
+const database = [
+  {
+    cat: "หน้าที่พลเมือง วัฒนธรรม และการดำเนินชีวิต",
+    q: "ในชุมชนแห่งหนึ่งเกิดปัญหาขยะมูลฝอยส่งกลิ่นเหม็นเนื่องจากรถเก็บขยะมาไม่ตรงเวลา ในฐานะสมาชิกของชุมชนตามระบอบประชาธิปไตย ข้อใดคือแนวทางการแก้ปัญหาที่ <strong>'ถูกต้องและยั่งยืนที่สุด'</strong>",
+    choices: [
+      "แอบนำขยะไปทิ้งในพื้นที่รกร้างข้างชุมชนเพื่อไม่ให้บ้านตนเองเหม็น",
+      "จ้างรถขนขยะเอกชนมาเก็บเฉพาะบ้านตนเองและบ้านญาติพี่น้อง",
+      "ร่วมประชุมชุมชนเพื่อแจ้งปัญหาและช่วยกันคิดระบบคัดแยกขยะตั้งแต่ต้นทางก่อนแจ้งไปยังเทศบาล",
+      "เขียนโพสต์ต่อว่าหน่วยงานรัฐลงในสื่อสังคมออนไลน์ส่วนตัวด้วยถ้อยคำรุนแรง"
+    ],
+    a: 2,
+    exp: "การแก้ปัญหาในระบอบประชาธิปไตยส่วนรวม ต้องเน้นการมีส่วนร่วม (Participation) และการแก้ปัญหาจากต้นทางเพื่อความยั่งยืน ส่วนข้ออื่นเป็นการแก้ปัญหาเฉพาะตนหรือสร้างปัญหาสังคมเพิ่ม"
+  },
+  {
+    cat: "หน้าที่พลเมือง วัฒนธรรม และการดำเนินชีวิต",
+    q: "สมชายเห็นคนในหมู่บ้านกู้เงินนอกระบบและโดนทวงหนี้ด้วยความรุนแรง เขาต้องการปฏิบัติตนตาม <strong>'บทบาทหน้าที่ของพลเมืองดี'</strong> เพื่อช่วยเหลือชุมชนและปกป้องตนเอง ควรเลือกทำข้อใด",
+    choices: [
+      "นิ่งเฉยเสียเพราะไม่ใช่เรื่องของตนเองและกลัวอันตราย",
+      "แนะนำให้คนในหมู่บ้านศึกษาระบบสหกรณ์ออมทรัพย์ชุมชนหรือสถาบันการเงินในระบบที่มีกฎหมายรองรับ",
+      "ไปช่วยเจ้าหนี้นอกระบบทวงเงินเพื่อที่จะได้ส่วนแบ่งค่านายหน้า",
+      "กู้เงินจากอีกเจ้าหนึ่งมาให้เพื่อนกู้ยืมเพื่อหมุนเวียนโปะหนี้เก่า"
+    ],
+    a: 1,
+    exp: "พลเมืองดีควรรู้จักพึ่งพากลไกในระบบกฎหมายและการจัดการการเงินที่ถูกต้อง เช่น สหกรณ์ชุมชน เพื่อสร้างภูมิคุ้มกันทางเศรษฐกิจให้สังคมปลอดภัย"
+  },
+  {
+    cat: "หน้าที่พลเมือง วัฒนธรรม และการดำเนินชีวิต",
+    q: "หากในหมู่บ้านของนักศึกษามีการจัดงานประเพณีท้องถิ่น แต่ผู้เข้าร่วมส่วนใหญ่เป็นผู้สูงอายุ วัยรุ่นในชุมชนไม่ค่อยให้ความสนใจ นักศึกษาจะ <strong>'ประยุกต์ใช้แนวคิดการอนุรักษ์วัฒนธรรม'</strong> ให้เข้ากับยุคสมัยได้อย่างไร",
+    choices: [
+      "บังคับให้วัยรุ่นทุกคนต้องมาเข้าร่วมงาน หากใครไม่มาจะปรับเงินเข้าส่วนกลาง",
+      "ปล่อยให้ประเพณีนั้นสูญหายไปตามกาลเวลาเพราะไม่เข้ากับยุคสมัยปัจจุบัน",
+      "ชวนกลุ่มเยาวชนมาช่วยถ่ายทำคลิปสั้นลง TikTok เพื่อเล่าเรื่องราวมุมมองแปลกใหม่ของประเพณีนี้ให้ดูน่าสนใจ",
+      "ยกเลิกการจัดงานดั้งเดิมแล้วเปลี่ยนไปจัดคอนเสิร์ตเพลงสากลแทนทั้งหมด"
+    ],
+    a: 2,
+    exp: "การอนุรักษ์วัฒนธรรมในโลกยุคใหม่ต้องใช้วิธีปรับตัวและใช้สื่อร่วมสมัย (Media Application) เพื่อสร้างความสนใจและการยอมรับจากคนรุ่นใหม่โดยไม่สูญเสียคุณค่าเดิม"
+  },
+  {
+    cat: "หน้าที่พลเมือง วัฒนธรรม และการดำเนินชีวิต",
+    q: "ข้อใดเป็นการปฏิบัติตนที่แสดงถึงการมี <strong>'ค่านิยมและวัฒนธรรมไทยที่เหมาะสม'</strong> ในการทำงานร่วมกับผู้อื่นที่มีความหลากหลายมากที่สุด",
+    choices: [
+      "ยอมรับฟังความคิดเห็นของทุกคนในกลุ่มด้วยความเคารพ แม้จะมีความเชื่อทางศาสนาหรือการเมืองที่ต่างกัน",
+      "เลือกทำงานเฉพาะกับกลุ่มคนที่มีภูมิลำเนาเดิมมาจากจังหวัดเดียวกันเท่านั้น",
+      "ปฏิเสธที่จะทำงานร่วมกับผู้ที่มีอายุน้อยกว่าตนเองเพราะคิดว่ายังไม่มีประสบการณ์",
+      "ใช้ระบบอุปถัมภ์และพวกพ้องในการตัดสินผลงานเพื่อให้กลุ่มของตนได้รับชัยชนะ"
+    ],
+    a: 0,
+    exp: "วัฒนธรรมประชาธิปไตยและการอยู่ร่วมกันในสังคมพหุวัฒนธรรมที่ถูกต้อง คือ การเคารพในความแตกต่างและรับฟังเหตุผลของผู้อื่นโดยปราศจากอคติ"
+  },
+  {
+    cat: "หน้าที่พลเมือง วัฒนธรรม และการดำเนินชีวิต",
+    q: "กฎหมายเบื้องต้นที่เกี่ยวข้องกับชีวิตประจำวันข้อใดระบุได้ <strong>'ถูกต้องตามหลักความจริง'</strong>",
+    choices: [
+      "ประชาชนทุกคนจะทำใบขับขี่รถยนต์ส่วนบุคคลได้เมื่อมีอายุครบ ๑๕ ปีบริบูรณ์",
+      "ผู้ใดที่รู้ว่าตนเองติดโรคติดต่อร้ายแรง สามารถเดินทางไปที่สาธารณะได้โดยไม่ต้องกักตัวหรือสวมหน้ากาก",
+      "บิดามารดาต้องส่งเด็กที่มีอายุถึงเกณฑ์ศึกษาภาคบังคับ (ป.๑) เข้าเรียนในสถานศึกษา หากฝ่าฝืนมีโทษตามกฎหมาย",
+      "การทำสัญญาซื้อขายบ้านและที่ดินสามารถทำกันเองด้วยวาจาได้โดยไม่ต้องไปจดทะเบียนที่กรมที่ดิน"
+    ],
+    a: 2,
+    exp: "ตาม พ.ร.บ. การศึกษาภาคบังคับ บิดามารดาต้องส่งบุตรเข้าเรียนเมื่อถึงเกณฑ์ (ข้อ 1 ใบขับขี่รถยนต์ต้อง 18 ปี, ข้อ 4 สัญญาซื้อขายอสังหาริมทรัพย์ต้องทำเป็นหนังสือและจดทะเบียนมิฉะนั้นเป็นโมฆะ)"
+  },
+  {
+    cat: "เศรษฐศาสตร์และการดำรงชีวิต",
+    q: "สมศรีมีรายได้รายวันจากการรับจ้างทั่วไป ช่วงนี้เกิดภาวะเงินเฟ้อ ข้าวของเครื่องใช้แพงขึ้น สมศรีควรนำ <strong>'หลักปรัชญาของเศรษฐกิจพอเพียง'</strong> ข้อใดมาใช้ในการจัดการชีวิตประจำวันด่วนที่สุด",
+    choices: [
+      "กู้เงินนอกระบบมาตุนสินค้าไว้มากๆ ก่อนที่ราคาจะปรับตัวสูงขึ้นไปอีก",
+      "ทำบัญชีรายรับ-รายจ่าย ตัดค่าใช้จ่ายที่ไม่จำเป็นออก และวางแผนปลูกผักสวนครัวกินเองเพื่อลดรายจ่าย",
+      "หยุดทำงานรับจ้างแล้วอยู่บ้านเฉยๆ เพื่อประหยัดค่าน้ำมันและค่าเดินทาง",
+      "นำเงินออมทั้งหมดที่มีไปลงทุนในตลาดหุ้นหรือแชร์ลูกโซ่เพื่อหวังผลกำไรที่รวดเร็ว"
+    ],
+    a: 1,
+    exp: "การทำบัญชีรายรับ-รายจ่าย และลดรายจ่ายด้วยการพึ่งพาตนเอง (ปลูกผักสวนครัว) สอดคล้องกับหลักความพอประมาณ มีเหตุผล และมีภูมิคุ้มกันในตัวที่ดีตามหลักเศรษฐกิจพอเพียง"
+  },
+  {
+    cat: "เศรษฐศาสตร์และการดำรงชีวิต",
+    q: "หากร้านขายอาหารตามสั่งในชุมชนของนักศึกษามีการแข่งขันกันสูงมาก ข้อใดคือวิธีการสร้าง <strong>'มูลค่าเพิ่ม (Value Added)'</strong> ให้สินค้าเพื่อดึงดูดลูกค้าตามหลักเศรษฐศาสตร์ชุมชน",
+    choices: [
+      "การลดปริมาณอาหารลงครึ่งหนึ่งแต่ขายราคาเดิมเพื่อเพิ่มกำไร",
+      "การใส่สารกันบูดในอาหารเพื่อให้เก็บไว้ได้นานหลายวันโดยไม่เสีย",
+      "การคัดเลือกวัตถุดิบอินทรีย์ในท้องถิ่นมาใช้ พร้อมจัดแต่งจานและบรรจุภัณฑ์ที่เป็นมิตรต่อสิ่งแวดล้อม",
+      "การตั้งป้ายโจมตีว่าร้านคู่อริสกปรกและใช้ของไม่มีคุณภาพ"
+    ],
+    a: 2,
+    exp: "การสร้างมูลค่าเพิ่มหมายถึงการยกระดับคุณภาพ การใช้วัตถุดิบท้องถิ่นที่เป็นจุดขาย หรือบรรจุภัณฑ์ที่ตอบโจทย์สังคม ซึ่งส่งผลดีต่อภาพลักษณ์และราคาสินค้าในระยะยาว"
+  },
+  {
+    cat: "เศรษฐศาสตร์และการดำรงชีวิต",
+    q: "ในฐานะ <strong>'ผู้บริโภคที่รู้เท่าทัน'</strong> เมื่อเห็นป้ายสินค้าลดราคา 70% ในห้างสรรพสินค้า สิ่งแรกที่นักศึกษาควรปฏิบัติก่อนตัดสินใจควักเงินจ่ายคือข้อใด",
+    choices: [
+      "รีบหยิบใส่ตะกร้าทันทีเพราะกลัวคนอื่นจะแย่งซื้อจนหมด",
+      "ตรวจสอบวันหมดอายุ สภาพความชำรุด และเปรียบเทียบราคาจริงกับป้ายที่ลดว่าจำเป็นต่อการใช้งานหรือไม่",
+      "ชวนเพื่อนๆ มาร่วมกันซื้อเยอะๆ เพื่อให้ได้รับสิทธิ์ลุ้นโชครางวัลใหญ่ประจำปี",
+      "ขอกู้เงินจากเพื่อนข้างๆ ทันทีเพราะไม่ได้พกเงินสดมาพอสำหรับของลดราคา"
+    ],
+    a: 1,
+    exp: "ผู้บริโภคที่ฉลาดต้องตรวจสอบคุณภาพ สภาพสินค้า วันหมดอายุ และประเมินความจำเป็น (Utility) มากกว่าแรงจูงใจทางด้านราคาเพียงอย่างเดียว"
+  },
+  {
+    cat: "เศรษฐศาสตร์และการดำรงชีวิต",
+    q: "เงินมีหน้าที่สำคัญหลายประการในระบบเศรษฐกิจ ข้อใดอธิบายหน้าที่ของเงินในฐานะ <strong>'เครื่องรักษามูลค่า (Store of Value)'</strong> ได้ถูกต้องที่สุด",
+    choices: [
+      "แก้วใจนำเงิน ๕๐ บาทไปซื้อข้าวผัดกะเพรามารับประทาน",
+      "สมหมายสะสมเงินฝากไว้ในธนาคารเพื่อใช้จ่ายในยามเกษียณอายุ",
+      "พ่อค้าตั้งราคากางเกงยีนส์ไว้ที่ตัวละ ๕๙๐ บาท",
+      "สมยศตกลงดาวน์รถยนต์โดยผ่อนชำระเดือนละ ๖,๐๐๐ บาท เป็นเวลา ๕ ปี"
+    ],
+    a: 1,
+    exp: "การเก็บเงินไว้ใช้ในอนาคต (เงินฝากออมทรัพย์) คือหน้าที่ในการรักษามูลค่าเนื่องจากเงินเป็นสินทรัพย์ที่มีสภาพคล่องและรักษามูลค่าทางเศรษฐกิจไว้ได้ (ส่วนข้อ 1 คือสื่อกลางแลกเปลี่ยน ข้อ 3 คือหน่วยวัดมูลค่า)"
+  },
+  {
+    cat: "เศรษฐศาสตร์และการดำรงชีวิต",
+    q: "สหกรณ์ประเภทใดที่มีวัตถุประสงค์หลักเพื่อ <strong>'ช่วยเหลือชาวไร่ชาวนาในด้านการรวบรวมผลผลิต การจัดหาปุ๋ย และเครื่องจักรกลการเกษตรมาจำหน่ายในราคาถูก'</strong>",
+    choices: [
+      "สหกรณ์ออมทรัพย์",
+      "สหกรณ์บริการ",
+      "สหกรณ์การเกษตร",
+      "สหกรณ์ร้านค้า"
+    ],
+    a: 2,
+    exp: "สหกรณ์การเกษตรตั้งขึ้นในกลุ่มเกษตรกรเพื่อช่วยเหลือด้านการผลิต การตลาด ปุ๋ย ยา และเครื่องมือทำการเกษตรโดยตรง"
+  },
+  {
+    cat: "ประวัติศาสตร์และความเป็นมา",
+    q: "หากนักศึกษาต้องการศึกษา <strong>'ประวัติศาสตร์ความเป็นมาของหมู่บ้านตนเอง'</strong> ขั้นตอนแรกในวิธีการทางประวัติศาสตร์ที่ควรทำคือข้อใด",
+    choices: [
+      "การเขียนรายงานสรุปเล่มใหญ่ออกเผยแพร่ทางอินเทอร์เน็ต",
+      "การกำหนดหัวข้อหรือตั้งคำถามว่าอยากรู้อะไรเกี่ยวกับหมู่บ้าน เช่น ใครเป็นผู้มาตั้งรกรากคนแรก",
+      "การไปสัมภาษณ์ผู้ใหญ่บ้านทันทีโดยไม่มีการเตรียมตัวล่วงหน้า",
+      "การนำวัตถุโบราณที่เจอในวัดไปขายทอดตลาดเพื่อหาเงินทุนวิจัย"
+    ],
+    a: 1,
+    exp: "ขั้นตอนแรกสุดของวิธีการทางประวัติศาสตร์คือ 'การกำหนดหัวข้อหรือประเด็นที่ต้องการศึกษา' (Formulation of a topic) จากนั้นจึงไปสู่ขั้นตอนการรวบรวมข้อมูล"
+  },
+  {
+    cat: "ประวัติศาสตร์และความเป็นมา",
+    q: "หลักฐานทางประวัติศาสตร์ในข้อใดจัดเป็น <strong>'หลักฐานชั้นต้น (Primary Sources)'</strong> ที่มีความน่าเชื่อถือสูงในการศึกษาเหตุการณ์ในอดีต",
+    choices: [
+      "หนังสือแบบเรียนวิชาสังคมศึกษาของกระทรวงศึกษาธิการ",
+      "ภาพถ่ายเหตุการณ์จริง พงศาวดาร หรือบันทึกลายลักษณ์อักษรของผู้ที่อยู่ในเหตุการณ์นั้น",
+      "นิยายอิงประวัติศาสตร์ที่มีการดัดแปลงเพื่อความบันเทิง",
+      "คำบอกเล่าของวัยรุ่นที่เพิ่งย้ายเข้ามาอยู่ในชุมชนได้ไม่ถึงปี"
+    ],
+    a: 1,
+    exp: "หลักฐานชั้นต้นคือหลักฐานที่เกิดขึ้นในยุคสมัยนั้นจริง เช่น ภาพถ่าย บันทึกประจำวัน โบราณวัตถุ ซึ่งไม่ได้ผ่านการเรียบเรียงหรือตีความใหม่เหมือนหลักฐานชั้นรองในตำราเรียน"
+  },
+  {
+    cat: "ประวัติศาสตร์และความเป็นมา",
+    q: "พระราชกรณียกิจที่สำคัญยิ่งของ <strong>'สมเด็จพระนเรศวรมหาราช'</strong> ที่ทำให้นักศึกษาได้เรียนรู้เรื่องความกล้าหาญและความเสียสละเพื่อแผ่นดินคือข้อใด",
+    choices: [
+      "การทำสงครามยุทธหัตถีทรงกอบกู้เอกราชของชาติไทย",
+      "การสร้างศิลาจารึกหลักที่ ๑ เพื่อประดิษฐ์อักษรไทย",
+      "การส่งสมณทูตไปเผยแผ่พระพุทธศาสนาในลังกา",
+      "การทำสนธิสัญญาเบาริงกับประเทศอังกฤษ"
+    ],
+    a: 0,
+    exp: "สมเด็จพระนเรศวรมหาราชทรงทำยุทธหัตถีชนช้างชนะพระมหาอุปราชา ณ ดอนเจดีย์ เป็นประวัติศาสตร์กอบกู้เอกราชครั้งสำคัญของอยุธยา"
+  },
+  {
+    cat: "ประวัติศาสตร์และความเป็นมา",
+    q: "ภูมิปัญญาไทยในสมัยโบราณข้อใดที่สะท้อนถึง <strong>'การประยุกต์ใช้ธรรมชาติรักษาโรคและดูแลสุขภาพ'</strong> ที่ยังคงนิยมมาจนถึงสังคมปัจจุบัน",
+    choices: [
+      "การเล่นเครื่องปั้นดินเผาบ้านเชียง",
+      "การทำเครื่องถมและเครื่องเงินในวัง",
+      "การใช้ยาสมุนไพรไทยและการนวดประคบแผนโบราณ",
+      "การสร้างที่อยู่อาศัยแบบเรือนไทยใต้ถุนสูง"
+    ],
+    a: 2,
+    exp: "การแพทย์แผนไทยและการใช้สมุนไพร (เช่น ฟ้าทะลายโจร ขมิ้นชัน) ถือเป็นภูมิปัญญาด้านสาธารณสุขและสุขภาพที่สืบทอดและประยุกต์ใช้จริงในวิถีชีวิตปัจจุบัน"
+  },
+  {
+    cat: "ประวัติศาสตร์และความเป็นมา",
+    q: "การสถาปนากรุงรัตนโกสินทร์เป็นราชธานีโดย <strong>'พระบาทสมเด็จพระพุทธยอดฟ้าจุฬาโลกมหาราช (รัชกาลที่ ๑)'</strong> มีการย้ายเมืองหลวงข้ามแม่น้ำเจ้าพระยามายังฝั่งตะวันออกด้วยเหตุผลหลักด้านใด",
+    choices: [
+      "ฝั่งตะวันออกมีพื้นที่กว้างขวาง ขยายเมืองได้ง่าย และมีชัยภูมิที่ดีในการป้องกันข้าศึก",
+      "ต้องการหนีภัยจากปัญหาน้ำท่วมซ้ำซากของฝั่งตะวันตก",
+      "ฝั่งตะวันออกมีทองคำและเพชรพลอยฝังอยู่ใต้ดินจำนวนมาก",
+      "ต้องการอยู่ใกล้กับทะเลเพื่อความสะดวกในการเล่นน้ำส่วนพระองค์"
+    ],
+    a: 0,
+    exp: "รัชกาลที่ 1 ทรงย้ายราชธานีจากธนบุรีมาฝั่งกรุงเทพฯ (ตะวันออก) เนื่องจากฝั่งเดิมท้องคุ้งน้ำเซาะตลิ่งพังง่าย และฝั่งใหม่มีชัยภูมิที่ดีกว่าในการตั้งรับศึก มีแม่น้ำเป็นคูเมืองด้านทิศตะวันตก"
+  },
+  {
+    cat: "ภูมิศาสตร์และสิ่งแวดล้อม",
+    q: "หากชุมชนของนักศึกษาตั้งอยู่บริเวณ <strong>'ที่ราบลุ่มแม่น้ำภาคกลาง'</strong> ภัยธรรมชาติประเภทใดที่มีโอกาสเกิดขึ้นบ่อยที่สุดในช่วงฤดูฝน และควรเตรียมพร้อมรับมืออย่างไร",
+    choices: [
+      "แผ่นดินไหวรุนแรง - ควรหลบใต้โต๊ะที่แข็งแรง",
+      "อุทกภัย (น้ำท่วมฉับพลัน/น้ำล้นตลิ่ง) - ควรยกของขึ้นที่สูง ตรวจสอบระบบปลั๊กไฟ และติดตามข่าวสารจากทางราชการ",
+      "ไฟป่าหมอกควัน - ควรใส่หน้ากากอนามัยและฉีดพ่นละอองน้ำบนหลังคา",
+      "ภัยแล้งรุนแรง - ควรขุดบ่อน้ำบาดาลเพิ่มเติมกะทันหัน"
+    ],
+    a: 1,
+    exp: "ภูมิประเทศที่เป็นที่ราบลุ่มแม่น้ำ เช่น ภาคกลางของไทย จะมีความเสี่ยงสูงต่อการเกิด 'อุทกภัย' หรือน้ำท่วมขังในช่วงฤดูน้ำหลาก การเตรียมพร้อมยกของขึ้นที่สูงและตัดไฟคือสิ่งสำคัญที่สุด"
+  },
+  {
+    cat: "ภูมิศาสตร์และสิ่งแวดล้อม",
+    q: "เครื่องมือทางภูมิศาสตร์ชนิดใดที่เหมาะสำหรับให้ผู้ใหญ่หรือนักศึกษาใช้ในชีวิตประจำวันเพื่อ <strong>'วางแผนระบบขนส่ง ค้นหาเส้นทางไปโรงพยาบาล หรือดูสภาพการจราจรแบบเรียลไทม์'</strong>",
+    choices: [
+      "ลูกโลกจำลองขนาดใหญ่",
+      "ระบบนำทางด้วยดาวเทียมและแผนที่บนสมาร์ตโฟน (GPS / Google Maps)",
+      "เข็มทิศแบบโบราณ",
+      "ภาพถ่ายดาวเทียมขาวดำสมัยสงครามโลก"
+    ],
+    a: 1,
+    exp: "แอปพลิเคชันแผนที่ดิจิทัลบนมือถือ (GPS) คือการประยุกต์ใช้เครื่องมือภูมิศาสตร์สารสนเทศที่ใกล้ตัว ทันสมัย และตอบโจทย์วิถีชีวิตประจำวันมากที่สุดในปัจจุบัน"
+  },
+  {
+    cat: "ภูมิศาสตร์และสิ่งแวดล้อม",
+    q: "สาเหตุสำคัญที่สุดที่ทำให้เกิดปัญหา <strong>'หมอกควันและฝุ่นพิษ PM 2.5'</strong> ในพื้นที่ภาคเหนือและภาคกลางของประเทศไทยในช่วงต้นปีที่นักศึกษาควรตระหนักเพื่อร่วมมือกันลดปัญหาคือข้อใด",
+    choices: [
+      "การปล่อยน้ำเสียของโรงงานอุตสาหกรรมลงสู่แหล่งน้ำสาธารณะ",
+      "การเผาเศษวัสดุทางการเกษตร ไฟป่า และไอเสียจากการจราจรในสภาพอากาศที่ปิดและแห้งแล้ง",
+      "ฝุ่นที่ลอยมาจากทะเลทรายในต่างประเทศอันไกลโพ้น",
+      "สารเคมีระเหยจากเครื่องปรับอากาศตามบ้านเรือนประชาชน"
+    ],
+    a: 1,
+    exp: "ฝุ่น PM 2.5 เกิดจากกิจกรรมหลักคือการเผาในที่โล่ง (เกษตร/ป่าไม้) ควบคู่กับไอเสียรถยนต์ดีเซล และสภาพอากาศนิ่งไม่มีลมพัดผ่านในฤดูหนาวต่อฤดูร้อน"
+  },
+  {
+    cat: "ภูมิศาสตร์และสิ่งแวดล้อม",
+    q: "หากต้องการปฏิบัติตามแนวคิด <strong>'การบริโภคที่ยั่งยืนและเป็นมิตรต่อสิ่งแวดล้อม (Green Consumption)'</strong> ในชีวิตประจำวัน ข้อใดถูกต้องและทำได้ง่ายที่สุด",
+    choices: [
+      "ซื้อน้ำดื่มบรรจุขวดพลาสติกใหม่ทุกครั้งและทิ้งลงพื้นทันทีเมื่อดื่มหมด",
+      "พกแก้วน้ำส่วนตัวและถุงผ้าไปตลาดเพื่อลดการสร้างขยะพลาสติกแบบใช้ครั้งเดียวทิ้ง",
+      "เปิดไฟและเปิดเครื่องปรับอากาศทิ้งไว้ทั้งวันทั้งคืนเพื่อไม่ให้เครื่องเกิดความชื้น",
+      "ซื้อเสื้อผ้าแฟชั่นราคาถูกตามกระแสนิยมสัปดาห์ละหลายๆ ชุดแล้วใส่เพียงครั้งเดียว"
+    ],
+    a: 1,
+    exp: "การลดใช้พลาสติกโดยนำภาชนะส่วนตัวมาใช้ซ้ำ (Reuse) เป็นหัวใจสำคัญของการอนุรักษ์สิ่งแวดล้อมและทรัพยากรธรรมชาติระดับบุคคลที่ทำได้จริงทันที"
+  },
+  {
+    cat: "ภูมิศาสตร์และสิ่งแวดล้อม",
+    q: "ความสัมพันธ์ระหว่างมนุษย์กับสิ่งแวดล้อมในข้อใดแสดงถึงการประยุกต์ใช้ <strong>'ภูมิปัญญาท้องถิ่นเพื่อปรับตัวให้เข้ากับลักษณะภูมิประเทศที่เป็นภูเขาสูง'</strong> ของภาคเหนือได้เด่นชัดที่สุด",
+    choices: [
+      "การทำนาขั้นบันไดตามลาดไหล่เขาเพื่อลดการพังทลายของหน้าดินและกักเก็บน้ำ",
+      "การสร้างบ้านเรือนแพลอยน้ำเพื่อรองรับน้ำขึ้นน้ำลง",
+      "การทำประมงอวนลากขนาดใหญ่ในลำธารขนาดเล็ก",
+      "การขุดคลองระบายน้ำล้อมรอบภูเขาเพื่อนำน้ำไปใช้ในตัวเมือง"
+    ],
+    a: 0,
+    exp: "การทำนาขั้นบันได (Terrace Farming) เป็นภูมิปัญญาขั้นสูงของคนบนพื้นที่สูงขรุขระ เพื่อใช้พื้นที่ภูเขาให้เกิดประโยชน์ทางการเกษตรสูงสุดโดยไม่ทำลายระบบนิเวศหน้าดิน"
+  }
+];
+
+let state = {
+  screen: 'login', studentName: '', studentId: '', questions: [], answers: [], checked: [], current: 0
+};
+
+function shuffleArray(arr) {
+  let newArr = arr.slice();
+  for (let i = newArr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+  }
+  return newArr;
+}
+
+function startApp() {
+  const nameInput = document.getElementById('s_name').value;
+  const idInput = document.getElementById('s_id').value;
+  if (!nameInput.trim()) { alert('กรุณากรอกชื่อ-นามสกุลก่อนเข้าสอบครับ'); return; }
+  
+  state.studentName = nameInput;
+  state.studentId = idInput || 'สกร. ระดับประถมศึกษา';
+  document.getElementById('subtitle-text').innerText = 'ผู้เข้าสอบ: ' + state.studentName;
+  
+  let shuffledDB = shuffleArray(database);
+  state.questions = [];
+  
+  for (let i = 0; i < shuffledDB.length; i++) {
+    let q = shuffledDB[i];
+    let correctText = q.choices[q.a];
+    let newChoices = shuffleArray(q.choices);
+    let newCorrectIndex = newChoices.indexOf(correctText);
+    
+    state.questions.push({
+      cat: q.cat, q: q.q, exp: q.exp, choices: newChoices, correctAnswer: newCorrectIndex
+    });
+  }
+  
+  state.answers = new Array(state.questions.length).fill(null);
+  state.checked = new Array(state.questions.length).fill(false);
+  state.current = 0;
+  state.screen = 'quiz';
+  renderApp();
+}
+
+function renderApp() {
+  const app = document.getElementById('app');
+  if (state.screen === 'login') {
+    app.innerHTML = `
+      <div class="card" style="text-align: center; padding: 40px 20px;">
+        <div style="font-size: 60px; margin-bottom: 10px;">🗺️</div>
+        <h2 style="color: var(--primary-dark); margin-bottom: 10px;">ระบบทดสอบวิชาสังคมศึกษา N-NET ประถมศึกษา (ชุดที่ 3)</h2>
+        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">ข้อสอบระดับประยุกต์ใช้ในชีวิตประจำวัน วัดกระบวนการแก้ไขปัญหา พลเมืองดี และเศรษฐกิจชุมชน 20 ข้อ</p>
+        <div class="inp-group">
+          <label class="inp-label">ชื่อ-นามสกุลผู้เข้าสอบ</label>
+          <input type="text" id="s_name" class="inp-text" placeholder="พิมพ์ชื่อและนามสกุลของคุณที่นี่">
+        </div>
+        <div class="inp-group">
+          <label class="inp-label">ระดับชั้น / สังกัด สกร.</label>
+          <input type="text" id="s_id" class="inp-text" value="ระดับประถมศึกษา - สังคมศึกษา ชุดที่ 3">
+        </div>
+        <button class="btn btn-primary" style="margin-top: 10px;" onclick="startApp()">เริ่มทำการทดสอบสังคมศึกษา 🚀</button>
+      </div>
+    `;
+  } 
+  else if (state.screen === 'quiz') {
+    let total = state.questions.length;
+    let curr = state.current;
+    let q = state.questions[curr];
+    let ans = state.answers[curr];
+    let isChecked = state.checked[curr];
+    let pct = Math.round(((curr + 1) / total) * 100);
+    
+    let letters = ['๑', '๒', '๓', '๔'];
+    let choicesHTML = '';
+    
+    for (let i = 0; i < 4; i++) {
+      let cssClass = 'choice';
+      if (isChecked) {
+        if (i === q.correctAnswer) cssClass += ' correct';
+        else if (i === ans && ans !== q.correctAnswer) cssClass += ' wrong';
+      } else {
+        if (i === ans) cssClass += ' selected';
+      }
+      choicesHTML += `<button class="${cssClass}" ${isChecked ? 'disabled' : ''} onclick="selectAnswer(${i})">
+                        <div class="c-let">${letters[i]}</div>
+                        <div>${q.choices[i]}</div>
+                      </button>`;
+    }
+    
+    let fbHTML = isChecked ? (
+      ans === q.correctAnswer 
+        ? `<div class="feedback ok">✅ <strong>ถูกต้อง! ตอบได้อย่างสมเหตุสมผล</strong><div class="fb-explain">💡 <strong>หลักเกณฑ์ทางสังคม:</strong> ${q.exp}</div></div>`
+        : `<div class="feedback no">❌ <strong style="color:var(--red)">คำตอบของท่านยังไม่ครบถ้วนหรือถูกตัวลวง</strong> — ดูข้อเฉลยสีเขียวด้านบนประกอบ<div class="fb-explain">💡 <strong>แนวคิดและบทวิเคราะห์:</strong> ${q.exp}</div></div>`
+    ) : '';
+    
+    let btnPrev = curr > 0 ? `<button class="btn btn-secondary" onclick="goPrev()">← ข้อก่อนหน้า</button>` : `<div style="width:48%"></div>`;
+    let btnNext = isChecked ? (
+      curr === total - 1 ? `<button class="btn btn-primary" onclick="showResult()">ส่งกระดาษคำตอบและประมวลสมรรถนะ 🏆</button>` : `<button class="btn btn-primary" onclick="goNext()">ข้อถัดไป →</button>`
+    ) : `<button class="btn btn-primary" ${ans === null ? 'disabled' : ''} onclick="checkAnswer()">ส่งตรวจคำตอบ ✓</button>`;
+    
+    let dotsHTML = '<div class="dot-nav">';
+    for (let i = 0; i < total; i++) {
+      let dClass = 'dot';
+      if (i === curr) dClass += ' active';
+      else if (state.checked[i]) dClass += (state.answers[i] === state.questions[i].correctAnswer) ? ' ok' : ' no';
+      dotsHTML += `<button class="${dClass}" onclick="jumpTo(${i})">${i+1}</button>`;
+    }
+    dotsHTML += '</div>';
+
+    app.innerHTML = `
+      <div class="card" style="padding: 16px 20px;">
+        <div class="prog-text"><span>ข้อที่ ${curr + 1} จาก ${total}</span><span>ความคืบหน้า ${pct}%</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width: ${pct}%"></div></div>
+      </div>
+      <div class="card">
+        <div class="q-badge">สาระวิชา: ${q.cat}</div>
+        <div class="q-text">${q.q}</div>
+        <div class="choices">${choicesHTML}</div>
+        ${fbHTML}
+        <div class="nav-buttons">${btnPrev}${btnNext}</div>
+      </div>
+      ${dotsHTML}
+    `;
+  }
+  else if (state.screen === 'result') {
+    let total = state.questions.length;
+    let score = 0;
+    let catStats = {};
+    
+    for (let i = 0; i < total; i++) {
+      let q = state.questions[i];
+      if (!catStats[q.cat]) catStats[q.cat] = { total: 0, correct: 0 };
+      catStats[q.cat].total++;
+      if (state.answers[i] === q.correctAnswer) { score++; catStats[q.cat].correct++; }
+    }
+    
+    let pct = Math.round((score / total) * 100);
+    
+    let analysisHTML = '';
+    for (let cat in catStats) {
+      let cPct = Math.round((catStats[cat].correct / catStats[cat].total) * 100);
+      let isWeak = cPct < 60;
+      let tagClass = isWeak ? 'weak' : 'good';
+      let tagText = isWeak ? '⚠️ ต้องทบทวนกระบวนการคิดเพิ่มเติม' : '✅ บรรลุสมรรถนะการวิเคราะห์ระดับดี';
+      
+      let advice = '';
+      if(cat === "หน้าที่พลเมือง วัฒนธรรม และการดำเนินชีวิต") advice = isWeak ? 'ยังสับสนเรื่องการใช้กลไกสิทธิเสรีภาพและการแก้ปัญหาชุมชนตามหลักประชาธิปไตย ควรเน้นศึกษาเรื่องส่วนรวมและการพึ่งพากฎหมายในชีวิตประจำวัน' : 'เยี่ยมมาก! มีความเข้าใจในบทบาทหน้าที่พลเมืองดี มีจิตสาธารณะ และรู้วิธีจัดการปัญหาร่วมกับชุมชนอย่างสันติวิธี';
+      else if(cat === "เศรษฐศาสตร์และการดำรงชีวิต") advice = isWeak ? 'มักโดนตัวลวงด้านการตลาดหลอก และยังขาดความเชื่อมโยงเรื่องเศรษฐกิจพอเพียงกับสถาบันการเงิน แนะนำให้ฝึกตั้งคำถามเรื่องความคุ้มค่าก่อนซื้อสินค้า' : 'โดดเด่นมาก! เข้าใจบทบาทผู้บริโภคที่รู้เท่าทัน สามารถประยุกต์หลักปรัชญาเศรษฐกิจพอเพียงมาสู้กับภาวะเงินเฟ้อข้าวของแพงได้อย่างดี';
+      else if(cat === "ประวัติศาสตร์และความเป็นมา") advice = isWeak ? 'สับสนเรื่องลำดับขั้นวิธีการทางประวัติศาสตร์และประเภทหลักฐาน แนะนำให้ทบทวนความแตกต่างระหว่างภาพถ่ายบันทึกจริงกับตำราเรียบเรียงใหม่' : 'ดีมาก! แยกแยะประเภทหลักฐานชั้นต้นได้อย่างถูกต้อง และสามารถวิเคราะห์ปัจจัยทางภูมิศาสตร์ที่ส่งผลต่อการตั้งเมืองหลวงในอดีตได้ยอดเยี่ยม';
+      else if(cat === "ภูมิศาสตร์และสิ่งแวดล้อม") advice = isWeak ? 'ควรศึกษาเพิ่มด้านการปรับตัวทางกายภาพให้เข้ากับสภาพแวดล้อม และตระหนักถึงพฤติกรรมในครัวเรือนที่ส่งผลต่อฝุ่นพิษ PM 2.5' : 'ดีเลิศ! รู้จักเลือกใช้แอปพลิเคชันแผนที่เทคโนโลยีสารสนเทศมาอำนวยความสะดวก และมีค่านิยมอนุรักษ์สิ่งแวดล้อม (Green Consumption) ที่ถูกต้อง';
+
+      analysisHTML += `
+        <div class="analysis-item ${isWeak ? 'weak' : 'good'}">
+          <span class="analysis-tag ${tagClass}">${tagText}</span>
+          <div style="font-weight: 700; font-size: 15px; margin-bottom: 2px;">กลุ่มสาระ: ${cat}</div>
+          <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 6px;">สอบผ่านสุทธิ ${catStats[cat].correct} จาก ${catStats[cat].total} ข้อ (${cPct}%)</div>
+          <div style="font-size: 13px; line-height:1.4;">💡 <strong>แนะแนวสำหรับผู้เรียน:</strong> ${advice}</div>
+        </div>
+      `;
+    }
+
+    let reviewHTML = '<div class="card" style="margin-top:20px"><div style="font-weight:700; margin-bottom:12px;">📋 ผลการวิเคราะห์และเฉลยคำตอบละเอียดรายข้อ</div>';
+    for (let i = 0; i < total; i++) {
+      let q = state.questions[i];
+      let isCorr = (state.answers[i] === q.correctAnswer);
+      reviewHTML += `
+        <div class="review-item">
+          <div class="r-q"><span class="ri-tick ${isCorr?'ok':'no'}">${isCorr?'✓':'✗'}</span> ข้อที่ ${i+1}: ${q.q}</div>
+          <div class="r-a" style="color:var(--text-muted)">คำตอบของท่าน: ${state.answers[i] !== null ? q.choices[state.answers[i]] : 'ไม่ได้ทำข้อนี้'}</div>
+          <div class="r-a" style="color:var(--green); font-weight:600;">แนวคำตอบที่ถูกต้อง: ${q.choices[q.correctAnswer]}</div>
+        </div>
+      `;
+    }
+    reviewHTML += '</div>';
+
+    app.innerHTML = `
+      <div class="card" style="text-align:center; padding:32px 20px;">
+        <h3 style="color:var(--primary-dark); margin-bottom:6px;">รายงานการประเมินผลสัมฤทธิ์ N-NET สังคมศึกษา</h3>
+        <div style="font-size:18px; font-weight:700;">ชื่อนักศึกษา: ${state.studentName}</div>
+        <div style="font-size:13px; color:var(--text-muted); margin-bottom:24px;">ระดับชั้นประเมิน: ${state.studentId}</div>
+        
+        <div style="font-size:56px; font-weight:800; color:var(--primary-dark); line-height:1;">${score}</div>
+        <div style="font-size:14px; color:var(--text-muted); margin-bottom:20px;">คะแนนรวม (จากข้อสอบปรนัยทั้งหมด ${total} ข้อ)</div>
+        
+        <div class="grid-stats">
+          <div class="stat-box"><div class="stat-num green">${score}</div><div style="font-size:12px;color:var(--text-muted)">ผ่านเกณฑ์ (ข้อ)</div></div>
+          <div class="stat-box"><div class="stat-num red">${total - score}</div><div style="font-size:12px;color:var(--text-muted)">คลาดเคลื่อน (ข้อ)</div></div>
+          <div class="stat-box"><div class="stat-num blue">${pct}%</div><div style="font-size:12px;color:var(--text-muted)">ความแม่นยำรวม</div></div>
+        </div>
+      </div>
+
+      <div class="analysis-card">
+        <div class="analysis-header">📊 สมรรถนะรายด้านและคำแนะนำการพัฒนาต่อยอด</div>
+        ${analysisHTML}
+      </div>
+      
+      <button class="btn btn-primary" onclick="location.reload()">🔄 สุ่มสลับคำถามและตัวลวงเพื่อฝึกซ้อมใหม่อีกครั้ง</button>
+      ${reviewHTML}
+    `;
+  }
+}
+
+function selectAnswer(index) { if (state.checked[state.current]) return; state.answers[state.current] = index; renderApp(); }
+function checkAnswer() { if (state.answers[state.current] === null) return; state.checked[state.current] = true; renderApp(); }
+function goNext() { if (state.current < state.questions.length - 1) { state.current++; renderApp(); } }
+function goPrev() { if (state.current > 0) { state.current--; renderApp(); } }
+function jumpTo(index) { state.current = index; renderApp(); }
+function showResult() { state.screen = 'result'; renderApp(); }
+
+renderApp();
+</script>
+</body>
+</html>
