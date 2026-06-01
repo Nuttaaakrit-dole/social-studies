@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แบบทดสอบ N-NET สังคมศึกษา ระดับประถมศึกษา (ชุดที่ 4)</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #0284c7; /* สีฟ้า/น้ำเงินคราม สื่อถึงโลก ภูมิศาสตร์ และรัฐศาสตร์ */
+    --primary-dark: #0369a1;
+    --primary-light: #f0f9ff;
+    --green: #15803d; --green-light: #f0fdf4; --green-mid: #bbf7d0;
+    --red: #b91c1c; --red-light: #fef2f2; --red-mid: #fecaca;
+    --amber-light: #fffbe6; --amber: #d97706;
+    --gray-bg: #f8fafc; --gray-card: #ffffff; --gray-border: #e2e8f0;
+    --text: #0f172a; --text-muted: #475569;
+  }
+  body { font-family: 'Sarabun', sans-serif; background: var(--gray-bg); color: var(--text); padding: 16px 8px; line-height: 1.6; }
+  .container { max-width: 650px; margin: 0 auto; padding-bottom: 60px; }
+  
+  .header-card { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 26px; border-radius: 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; }
+  .header-card h1 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .header-card p { font-size: 14px; opacity: 0.9; }
+
+  .card { background: var(--gray-card); border: 1px solid var(--gray-border); border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.01), 0 2px 4px -1px rgba(0,0,0,0.01); }
+  
+  .emoji-banner { font-size: 48px; text-align: center; margin-bottom: 16px; margin-top: 8px; animation: bounce 2s infinite; }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .form-group { margin-bottom: 16px; text-align: left; }
+  .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+  .form-control { width: 100%; padding: 12px 14px; border: 1px solid var(--gray-border); border-radius: 10px; font-family: 'Sarabun', sans-serif; font-size: 15px; transition: all 0.2s; }
+  .form-control:focus { outline: none; border-color: var(--primary); background-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15); }
+  
+  .progress-container { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; font-size: 14px; color: var(--text-muted); font-weight: 500; }
+  .progress-bar-bg { background: #e2e8f0; height: 8px; border-radius: 4px; flex-grow: 1; margin: 0 12px; position: relative; overflow: hidden; }
+  .progress-bar-fill { background: var(--primary); height: 100%; width: 0%; transition: width 0.3s ease; }
+
+  .question-text { font-size: 16px; font-weight: 600; margin-bottom: 20px; color: var(--text); white-space: pre-line; background: #fdfdfd; padding: 12px; border-radius: 8px; border-left: 4px solid var(--primary); }
+  .hint-box { background: var(--amber-light); border-left: 4px solid var(--amber); padding: 12px 16px; border-radius: 4px 8px 8px 4px; margin-bottom: 20px; font-size: 14px; color: var(--amber); }
+
+  .options-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .option-item { display: flex; align-items: flex-start; padding: 14px 16px; border: 1px solid var(--gray-border); border-radius: 12px; cursor: pointer; transition: all 0.2s ease; background: white; font-size: 15px; }
+  .option-item:hover { border-color: #94a3b8; background: #f8fafc; }
+  .option-item.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary-dark); font-weight: 500; }
+  
+  .option-item.correct-reveal { border-color: var(--green-mid); background: var(--green-light); color: var(--green); font-weight: 500; }
+  .option-item.wrong-reveal { border-color: var(--red-mid); background: var(--red-light); color: var(--red); }
+  .option-item.disabled { cursor: not-allowed; pointer-events: none; }
+
+  .radio-dot { height: 18px; min-width: 18px; border: 2px solid #cbd5e1; border-radius: 50%; margin-right: 12px; margin-top: 2px; position: relative; display: inline-block; }
+  .option-item.selected .radio-dot { border-color: var(--primary); }
+  .option-item.selected .radio-dot::after { content: ''; position: absolute; width: 10px; height: 10px; background: var(--primary); border-radius: 50%; top: 2px; left: 2px; }
+  .option-item.correct-reveal .radio-dot { border-color: var(--green); }
+  .option-item.correct-reveal .radio-dot::after { content: '✓'; color: var(--green); font-size: 12px; font-weight: bold; position: absolute; top: -4px; left: 2px; }
+  .option-item.wrong-reveal .radio-dot { border-color: var(--red); }
+  .option-item.wrong-reveal .radio-dot::after { content: '✕'; color: var(--red); font-size: 12px; font-weight: bold; position: absolute; top: -4px; left: 2px; }
+
+  .rationale-box { padding: 14px 16px; border-radius: 10px; font-size: 14px; margin-bottom: 20px; animation: fadeIn 0.3s ease; }
+  .rationale-box.correct { background: var(--green-light); border: 1px dashed var(--green-mid); color: var(--green); }
+  .rationale-box.wrong { background: var(--red-light); border: 1px dashed var(--red-mid); color: var(--red); }
+
+  .nav-actions { display: flex; justify-content: space-between; gap: 12px; margin-top: 10px; }
+  .btn { flex: 1; padding: 12px 16px; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: background 0.2s; text-decoration: none; }
+  .btn-primary { background: var(--primary); color: white; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-primary:disabled { background: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
+  .btn-secondary { background: #e2e8f0; color: var(--text); }
+  .btn-secondary:hover { background: #cbd5e1; }
+  .btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .summary-card { text-align: center; padding: 32px 24px; border: 2px solid var(--primary) !important; }
+  .student-info-box { background: #f0f9ff; border: 1px dashed var(--primary); padding: 16px; border-radius: 12px; margin: 16px 0; text-align: left; }
+  .student-info-box p { font-size: 14px; margin-bottom: 4px; color: var(--text); }
+  .student-info-box p b { color: var(--primary); }
+  
+  .grade-pill { display: inline-block; padding: 6px 18px; border-radius: 20px; font-weight: 700; font-size: 16px; margin: 8px 0; }
+  .grade-pass { background: var(--green-light); color: var(--green); border: 1px solid var(--green-mid); }
+  .grade-fail { background: var(--red-light); color: var(--red); border: 1px solid var(--red-mid); }
+  
+  .grid-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
+  .stat-box { background: #f8fafc; border: 1px solid var(--gray-border); padding: 12px; border-radius: 10px; text-align: center; }
+  .stat-num { font-size: 22px; font-weight: 700; }
+  .slbl { font-size: 12px; color: var(--text-muted); }
+
+  .review-title { font-size: 16px; font-weight: 700; margin-bottom: 14px; text-align: left; border-bottom: 2px solid var(--primary); padding-bottom: 6px; color: var(--primary); }
+  .review-item { text-align: left; padding: 16px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+  .review-item:last-child { border-bottom: none; }
+  
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header-card">
+    <h1>สกร.โนนสัง ระดับประถมศึกษา — แบบทดสอบ N-NET</h1>
+    <p>วิชาสังคมศึกษา (ชุดที่ 4: ความท้าทายและการประยุกต์ใช้ในชีวิตจริง)</p>
+  </div>
+
+  <div id="quiz-app"></div>
+</div>
+
+<script>
+const quizData = {
+  "questions": [
+    {
+      "question": "สมชายต้องการเลือกซื้อพัดลมเครื่องใหม่มาใช้งานในบ้านดิน สัญลักษณ์ใดบนฉลากสินค้าที่ช่วยให้สมชายมั่นใจได้มากที่สุดว่าพัดลมตัวนี้มีความปลอดภัยในการใช้งานและได้มาตรฐานตามที่กฎหมายกำหนด?",
+      "answerOptions": [
+        { "text": "ฉลากประหยัดไฟเบอร์ 5 มีดาว", "rationale": "ตัวลวงคุณสมบัติ ฉลากเบอร์ 5 ช่วยเรื่องการประหยัดพลังงานและค่าไฟเท่านั้น ไม่ใช่เครื่องหมายที่รับรองความปลอดภัยทางวิศวกรรมโดยตรง", "isCorrect": false },
+        { "text": "เครื่องหมายมาตรฐานผลิตภัณฑ์อุตสาหกรรม (มอก.)", "rationale": "ถูกต้อง! มอก. เป็นเครื่องหมายที่รับรองคุณภาพและความปลอดภัยของสินค้าอุตสาหกรรมและเครื่องใช้ไฟฟ้าตามกฎหมายไทย", "isCorrect": true },
+        { "text": "เครื่องหมาย อย. (สำนักงานคณะกรรมการอาหารและยา)", "rationale": "ตัวลวงผิดประเภท อย. ใช้ควบคุมดูแลความปลอดภัยเฉพาะสินค้าประเภทอาหาร ยา และเครื่องสำอาง ไม่ใช่เครื่องใช้ไฟฟ้า", "isCorrect": false },
+        { "text": "ตราสัญลักษณ์โอทอป (OTOP) 5 ดาว", "rationale": "ตัวลวงคุณค่า โอทอปเด่นเรื่องภูมิปัญญาท้องถิ่นและการส่งเสริมรายได้ชุมชน แต่ไม่ใช่มาตรฐานสากลด้านความปลอดภัยของเครื่องใช้ไฟฟ้า", "isCorrect": false }
+      ],
+      "hint": "นึกถึงกฎหมายที่ควบคุมเครื่องใช้ไฟฟ้าในครัวเรือนเพื่อป้องกันกระแสไฟฟ้ารั่วหรือลัดวงจร"
+    },
+    {
+      "question": "หากเกิดข้อพิพาทเกี่ยวกับที่ดินทำกินในชุมชน หรือสิทธิการเข้าใช้ประโยชน์ในป่าชุมชน เครื่องมือทางภูมิศาสตร์ชนิดใดที่ชาวบ้านสามารถนำมาใช้เป็นหลักฐานเพื่อพิสูจน์ความจริงเชิงกายภาพและขอบเขตพื้นที่ร่วมกับหน่วยงานรัฐได้มีความถูกต้องแม่นยำที่สุด?",
+      "answerOptions": [
+        { "text": "ภาพถ่ายทางอากาศหรือภาพถ่ายจากดาวเทียม", "rationale": "ถูกต้อง! เป็นเครื่องมือที่แสดงภาพรวมของพื้นที่จริง ทิศทาง ขอบเขต และสภาพแวดล้อมทางกายภาพที่เปลี่ยนแปลงไปตามเวลา มีความแม่นยำสูงทางนิติวิทยาศาสตร์", "isCorrect": true },
+        { "text": "ลูกโลกจำลองขนาดใหญ่", "rationale": "ตัวลวงมาตราส่วน ลูกโลกแสดงภาพรวมของทวีปและมหาสมุทรระดับโลก ไม่สามารถเจาะลึกขอบเขตที่ดินชุมชนได้", "isCorrect": false },
+        { "text": "แผนที่แสดงเขตภูมิอากาศของทวีปเอเชีย", "rationale": "ตัวลวงนอกประเด็น แผนที่ภูมิอากาศบอกปริมาณฝนและอุณหภูมิ ไม่สามารถใช้ระบุพิกัดสิทธิที่ดินทำกินได้", "isCorrect": false },
+        { "text": "เข็มทิศแบบพกพาและการคาดคะเนด้วยสายตา", "rationale": "ตัวลวงคลาดเคลื่อน เข็มทิศบอกได้เฉพาะทิศทาง แต่การคาดคะเนด้วยสายตาไม่มีความน่าเชื่อถือทางกฎหมาย", "isCorrect": false }
+      ],
+      "hint": "เครื่องมือนี้ได้มาจากการบันทึกข้อมูลระยะไกลจากมุมสูงเหนือพื้นผิวโลก ทำให้เห็นพิกัดต้นไม้ ป่าไม้ และเส้นทางเดินชัดเจน"
+    },
+    {
+      "question": "ในวันเลือกตั้งสมาชิกสภาผู้แทนราษฎร (สส.) หากสมศรีมีภารกิจจำเป็นต้องไปปฏิบัติงานต่างจังหวัดในวันนั้นพอดี ตามสิทธิหน้าที่พลเมืองในระบอบประชาธิปไตย สมศรีควรแก้ปัญหาอย่างไรจึงจะถูกต้องและเหมาะสมที่สุด?",
+      "answerOptions": [
+        { "text": "ละทิ้งการไปเลือกตั้ง แล้วค่อยไปใช้สิทธิในครั้งถัดไปแทน", "rationale": "ตัวลวงเพิกเฉย การไม่ไปใช้สิทธิทำให้เสียสิทธิทางการเมืองบางประการตามกฎหมาย เช่น การคัดค้านการเลือกตั้ง", "isCorrect": false },
+        { "text": "ลงทะเบียนขอใช้สิทธิเลือกตั้งล่วงหน้านอกเขตจังหวัดตามระยะเวลาที่กำหนด", "rationale": "ถูกต้อง! กฎหมายเปิดช่องให้ผู้ที่ไม่สะดวกในวันจริง สามารถลงทะเบียนลงคะแนนล่วงหน้าได้ ถือเป็นการรักษาสิทธิและทำหน้าที่พลเมืองอย่างสมบูรณ์", "isCorrect": true },
+        { "text": "เขียนหนังสือมอบอำนาจให้สามีไปกากบาทลงคะแนนแทนตนเอง", "rationale": "ตัวลวงผิดกฎหมาย การเลือกตั้งในระบอบประชาธิปไตยเป็นสิทธิเฉพาะบุคคล ต้องไปลงคะแนนด้วยตนเองอย่างลับ ไม่สามารถมอบอำนาจให้ผู้อื่นทำแทนได้", "isCorrect": false },
+        { "text": "โทรศัพท์แจ้งประธานหมู่บ้านให้บันทึกไว้ว่าตนเองติดธุระ", "rationale": "ตัวลวงไร้ผล การแจ้งประธานหมู่บ้านไม่มีผลทางกฎหมายในการรักษาสิทธิทางการเมือง", "isCorrect": false }
+      ],
+      "hint": "หลักการของการเลือกตั้งคือ 'สิทธิเฉพาะตัว' และ 'ความเท่าเทียม' โดยรัฐบาลมีมาตรการรองรับผู้ที่อยู่ต่างพื้นที่ไว้ล่วงหน้า"
+    },
+    {
+      "question": "ชาวบ้านในหมู่บ้านแห่งหนึ่งรวมตัวกันจัดตั้ง \"กลุ่มออมทรัพย์เพื่อการผลิต\" โดยร่วมกันลงหุ้นสัจจะสะสมทรัพย์ทุกเดือน และเปิดโอกาสให้สมาชิกกู้ยืมเงินทุนไปประกอบอาชีพในอัตราดอกเบี้ยต่ำ พฤติกรรมของชุมชนนี้สอดคล้องกับข้อใดมากที่สุด?",
+      "answerOptions": [
+        { "text": "ระบบทุนนิยมเสรีเต็มรูปแบบ", "rationale": "ตัวลวงเศรษฐกิจ ทุนนิยมเน้นการแข่งขันและแสวงหากำไรสูงสุดเป็นหลัก ไม่ใช่การรวมกลุ่มเพื่อช่วยเหลือกันแบบเกื้อกูล", "isCorrect": false },
+        { "text": "หลักการและวิธีการของระบบสหกรณ์", "rationale": "ถูกต้อง! สหกรณ์เน้นการรวมกลุ่มของคนที่มีความเดือดร้อนเหมือนกัน ทำงานร่วมกันโดยไม่มุ่งเน้นกำไรสูงสุด แต่เน้นการช่วยเหลือตนเองและช่วยเหลือซึ่งกันและกัน", "isCorrect": true },
+        { "text": "การผูกขาดทางการค้าโดยชุมชน", "rationale": "ตัวลวงแง่ลบ การรวมกลุ่มออมทรัพย์ไม่ใช่การกีดกันการค้าหรือผูกขาดตลาด", "isCorrect": false },
+        { "text": "การพึ่งพาเงินงบประมาณสนับสนุนจากต่างประเทศ", "rationale": "ตัวลวงนอกเรื่อง เป็นการรวมเงินจากภายในชุมชนเอง (เงินหุ้นสัจจะ) ไม่เกี่ยวข้องกับการกู้เงินต่างประเทศ", "isCorrect": false }
+      ],
+      "hint": "คำสำคัญคือ การรวมกลุ่ม, พึ่งพาตนเอง, ดอกเบี้ยต่ำเพื่อช่วยเหลือกัน, ไม่มุ่งเน้นเอาเปรียบ ซึ่งตรงกับอุดมการณ์ขององค์กรประเภทใด"
+    },
+    {
+      "question": "เหตุการณ์ในข้อใดจัดว่าเป็นบทบาทของผู้ผลิตที่ \"ขาดคุณธรรมและจริยธรรม\" ในระบบเศรษฐกิจและส่งผลเสียต่อผู้บริโภคโดยตรง?",
+      "answerOptions": [
+        { "text": "ร้านค้าปรับลดราคาสินค้าลงในช่วงเทศกาลปีใหม่เพื่อคืนกำไร", "rationale": "ตัวลวงด้านดี การลดราคาเป็นผลดีต่อผู้บริโภคและสะท้อนความมีน้ำใจ", "isCorrect": false },
+        { "text": "เกษตรกรใช้ปุ๋ยอินทรีย์ทดแทนสารเคมีเพื่อความปลอดภัยของคนซื้อ", "rationale": "ตัวลวงด้านดี นี่คือตัวอย่างที่ดีมากของผู้ผลิตที่มีความรับผิดชอบต่อสังคม", "isCorrect": false },
+        { "text": "โรงงานแอบปล่อยน้ำเสียลงสู่แม่น้ำในตอนกลางคืนเพื่อลดต้นทุนการบำบัด", "rationale": "ถูกต้อง! เป็นการกระทำที่เห็นแก่ประโยชน์ส่วนตน มักง่าย สร้างมลพิษทำลายสิ่งแวดล้อม และละเมิดสิทธิและความปลอดภัยของชุมชนอย่างรุนแรง", "isCorrect": true },
+        { "text": "พ่อค้าสั่งซื้อสินค้าล็อตใหญ่มาเก็บไว้เพื่อป้องกันสินค้าขาดตลาด", "rationale": "ตัวลวงกึ่งกลาง การกักตุนสินค้าอาจก้ำกึ่ง แต่หากเป็นการเตรียมพร้อมปกติธรรมดาก็ยังไม่เด่นชัดเท่ากับการปล่อยน้ำเสียทำลายสุขภาพชุมชน", "isCorrect": false }
+      ],
+      "hint": "พิจารณาการกระทำที่ส่งผลกระทบวงกว้าง ทำลายสุขอนามัยของประชาชน และผิดกฎหมายสิ่งแวดล้อมชัดเจน"
+    },
+    {
+      "question": "หากเกิดภัยแล้งยาวนานในภูมิภาคที่นักศึกษาอาศัยอยู่ ส่งผลให้ผลผลิตทางการเกษตรเสียหายและขาดแคลน ตามกฎของอุปสงค์และอุปทาน (Demand & Supply) เหตุการณ์นี้จะส่งผลกระทบต่อราคาสินค้าพืชผักในตลาดอย่างไร?",
+      "answerOptions": [
+        { "text": "ราคาสินค้าจะลดต่ำลงมากเพราะไม่มีคนอยากซื้อ", "rationale": "ตัวลวงผิดทิศทาง สินค้าขาดแคลนแต่ความต้องการกินยังเท่าเดิม ราคาไม่มีทางลดลง", "isCorrect": false },
+        { "text": "ราคาสินค้าจะพุ่งสูงขึ้นเนื่องจากปริมาณสินค้ามีน้อยแต่ความต้องการซื้อเท่าเดิม", "rationale": "ถูกต้อง! เมื่อของมีน้อย (Supply ลดลง) แต่คนยังต้องกินต้องใช้เท่าเดิม (Demand คงที่หรือสูง) สินค้าจะเกิดภาวะแย่งกันซื้อ ส่งผลให้ราคาปรับตัวสูงขึ้น", "isCorrect": true },
+        { "text": "ราคาสินค้าจะคงที่เท่าเดิมไม่เปลี่ยนแปลงเพราะรัฐบาลควบคุมได้ 100%", "rationale": "ตัวลวงอุดมคติ ในความเป็นจริงกลไกตลาดจะส่งผลกระทบต่อราคาก่อนที่รัฐบาลจะเข้ามาแทรกแซงได้ทันทั้งหมด", "isCorrect": false },
+        { "text": "พ่อค้าจะแจกสินค้าให้ผู้บริโภคฟรีเพื่อช่วยเหลือเพื่อนมนุษย์", "rationale": "ตัวลวงเพ้อฝัน ในระบบเศรษฐกิจจริง พ่อค้าไม่สามารถแจกฟรีได้ตลอดเพราะมีต้นทุนการผลิตที่เสียหาย", "isCorrect": false }
+      ],
+      "hint": "คิดง่ายๆ ถ้าน้ำท่วมหรือภัยแล้ง ของในตลาดหายไปครึ่งหนึ่ง คนที่อยากได้ยอมจ่ายเงินแพงขึ้นเพื่อให้ได้ของชิ้นนั้นหรือไม่"
+    },
+    {
+      "question": "พระพุทธศาสนามีหลักธรรมเรื่อง \"อริยสัจ 4\" หากนักศึกษาประสบปัญหาหนี้สินจากการใช้จ่ายเกินตัวและต้องการแก้ไขปัญหานี้ให้หมดไปอย่างยั่งยืน ขั้นตอนของ \"มรรค\" (หนทางแห่งการดับทุกข์) สอดคล้องกับพฤติกรรมในข้อใด?",
+      "answerOptions": [
+        { "text": "การยอมรับความจริงว่าการมีหนี้สินทำให้เกิดความเครียด", "rationale": "ตัวลวงขั้นทุกข์ การรู้ว่าเครียดเป็นเพียงการรับรู้ปัญหาสภาวะ 'ทุกข์' เท่านั้น", "isCorrect": false },
+        { "text": "การค้นหาความจริงว่าหนี้สินเกิดจากการซื้อของออนไลน์ตามใจตนเอง", "rationale": "ตัวลวงขั้นสมุทัย การรู้สาเหตุของปัญหาเป็นขั้น 'สมุทัย' ยังไม่ใช่การลงมือปฏิบัติเพื่อแก้ปัญหา", "isCorrect": false },
+        { "text": "การวางแผนทำบัญชีครัวเรือน ลดรายจ่าย และยึดหลักเศรษฐกิจพอเพียงในการดำรงชีวิต", "rationale": "ถูกต้อง! 'มรรค' คือวิธีปฏิบัติ วิธีลงมือทำ แผนการดำเนินชีวิตเพื่อนำไปสู่การแก้ปัญหา (ดับทุกข์) ให้สำเร็จ", "isCorrect": true },
+        { "text": "การวาดฝันว่าวันหนึ่งตนเองจะหมดหนี้และมีความสุขสบาย", "rationale": "ตัวลวงขั้นนิโรธ การเล็งเห็นเป้าหมายหรือความหลุดพ้นจากปัญหาคือ 'นิโรธ' แต่ขาดการลงมือทำ", "isCorrect": false }
+      ],
+      "hint": "มรรค แปลว่า ทาง หรือ ข้อปฏิบัติ วิธีการลงมือกระทำอย่างเป็นระบบเพื่อทำลายต้นตอของปัญหา"
+    },
+    {
+      "question": "ข้อใดกล่าวถึง \"ความสำคัญของวันมาฆบูชา\" ได้ถูกต้องเด่นชัดที่สุดทางพระพุทธศาสนา?",
+      "answerOptions": [
+        { "text": "เป็นวันที่พระพุทธเจ้าทรงประสูติ ตรัสรู้ และปรินิพพาน", "rationale": "ตัวลวงยอดฮิต เหตุการณ์ประสูติ ตรัสรู้ ปรินิพพาน เกิดขึ้นใน 'วันวิสาขบูชา' ไม่ใช่วันมาฆบูชา", "isCorrect": false },
+        { "text": "เป็นวันที่พระพุทธเจ้าทรงแสดงโอวาทปาติโมกข์แก่พระสงฆ์ 1,250 รูปที่มาประชุมพร้อมกันโดยมิได้นัดหมาย", "rationale": "ถูกต้อง! วันมาฆบูชาเกิดเหตุการณ์จาตุรงคสันนิบาต และพระองค์ทรงประกาศหลักธรรมหัวใจของพุทธศาสนา", "isCorrect": true },
+        { "text": "เป็นวันที่เกิดพระรัตนตรัยครบ 3 ประการ คือ พระพุทธ พระธรรม พระสงฆ์ เป็นครั้งแรก", "rationale": "ตัวลวงสับสน วันที่เกิดพระรัตนตรัยครบถ้วนคือ 'วันอาสาฬหบูชา' (วันแสดงปฐมเทศนา)", "isCorrect": false },
+        { "text": "เป็นวันเริ่มต้นการจำพรรษาของพระภิกษุสงฆ์ตลอดเวลา 3 เดือน", "rationale": "ตัวลวงประเพณี การจำพรรษาเป็นเรื่องของ 'วันเข้าพรรษา' ไม่ใช่มาฆบูชา", "isCorrect": false }
+      ],
+      "hint": "วันมาฆบูชาตรงกับวันเพ็ญเดือน 3 มีเหตุการณ์อัศจรรย์สี่ประการ และมีการแสดงโอวาทที่เป็นหัวใจสำคัญ"
+    },
+    {
+      "question": "การทำความเคารพโดยการ \"กราบพระรัตนตรัย\" (พระพุทธ รูปจำลอง พระสงฆ์) ที่ถูกต้องตามเบญจางคประดิษฐ์ อวัยวะส่วนใดบ้างที่ต้องสัมผัสราบติดกับพื้น?",
+      "answerOptions": [
+        { "text": "ฝ่ามือทั้งสอง ท้อง และเข่าทั้งสอง", "rationale": "ตัวลวงผิดสัดส่วน ท้องไม่ต้องสัมผัสพื้นในการกราบแบบเบญจางคประดิษฐ์", "isCorrect": false },
+        { "text": "เข่าทั้งสอง ฝ่ามือทั้งสอง และหน้าผาก", "rationale": "ถูกต้อง! เบญจางคประดิษฐ์ แปลว่า องค์ 5 ได้แก่ เข่า 2, มือ 2 และหน้าผาก 1 จรดพื้นพร้อมกัน", "isCorrect": true },
+        { "text": "หน้าผาก จมูก มือทั้งสอง และเท้าทั้งสอง", "rationale": "ตัวลวงใบหน้า จมูกไม่ได้เป็นข้อบังคับทางพิธีการ และเท้าทำหน้าที่ทรงตัวไม่ใช่แนบราบ", "isCorrect": false },
+        { "text": "ศอกทั้งสอง เข่าทั้งสอง และปลายคาง", "rationale": "ตัวลวงท่าทาง คางไม่ต้องแตะพื้น เป็นการบรรยายท่ากราบที่ผิดหลักการ", "isCorrect": false }
+      ],
+      "hint": "คำว่า เบญจ แปลว่า ห้า (5) หมายถึงอวัยวะทั้ง 5 ส่วนต้องแตะพื้นเรียบร้อยและสง่างาม"
+    },
+    {
+      "question": "หากในชุมชนของนักศึกษามีขยะพลาสติกและเศษอาหารตกค้างเป็นจำนวนมาก พฤติกรรมการจัดการตามแนวทาง \"เศรษฐกิจพอเพียง\" และการอนุรักษ์สิ่งแวดล้อมข้อใดเป็นรูปธรรมและก่อประโยชน์สูงสุด?",
+      "answerOptions": [
+        { "text": "รวบรวมขยะทั้งหมดไปเผาที่หลังบ้านในตอนกลางวันเพื่อความรวดเร็ว", "rationale": "ตัวลวงสร้างมลพิษ การเผาพลาสติกสร้างก๊าซพิษและฝุ่น PM 2.5 ทำลายโอโซนและสุขภาพเพื่อนบ้าน", "isCorrect": false },
+        { "text": "คัดแยกขยะพลาสติกเพื่อนำไปขาย/รีไซเคิล และนำเศษอาหารมาหมักทำปุ๋ยชีวภาพใช้ในแปลงผักสวนครัว", "rationale": "ถูกต้อง! เป็นการนำสิ่งเหลือใช้กลับมาสร้างประโยชน์ตามหลักพึ่งพาตนเอง ช่วยลดขยะและประหยัดต้นทุนปุ๋ย", "isCorrect": true },
+        { "text": "จ้างบริษัทเอกชนนำขยะไปทิ้งนอกพื้นที่ชุมชนเพื่อตัดปัญหา", "rationale": "ตัวลวงผลักภาระ เป็นการผลักภาระขยะไปให้ชุมชนอื่น ไม่ใช่การแก้ปัญหาที่ยั่งยืนและพอเพียง", "isCorrect": false },
+        { "text": "ขุดหลุมขนาดใหญ่ในหมู่บ้านแล้วฝังกลบรวมกันทุกอย่างโดยไม่ต้องแยก", "rationale": "ตัวลวงคลาดเคลื่อน การฝังกลบพลาสติกรวมกับเศษอาหารทำให้ย่อยสลายยากและอาจปนเปื้อนสู่น้ำใต้ดิน", "isCorrect": false }
+      ],
+      "hint": "เน้นกระบวนการ 'ลด รีไซเคิล และแปรเปลี่ยนเศษอาหารให้กลายเป็นประโยชน์ทางการเกษตรลดรายจ่าย'"
+    },
+    {
+      "question": "เมื่อเดินสำรวจป่าชุมชนตอนบนของหมู่บ้าน พบว่าดินบริเวณเชิงเขามีการพังทลายรุนแรงเนื่องจากขาดพืชยึดเกาะ การประยุกต์ใช้พระราชดำริ \"หญ้าแฝก\" ของในหลวงรัชกาลที่ 9 ช่วยแก้ปัญหานี้ได้อย่างไร?",
+      "answerOptions": [
+        { "text": "ใบของหญ้าแฝกมีความหนาช่วยบดบังแสงแดดไม่ให้หน้าดินแห้ง", "rationale": "ตัวลวงคุณสมบัติ ใบช่วยบังแดดได้บ้างแต่ไม่ใช่กลไกหลักในการยึดโครงสร้างหน้าดินจากการพังทลายของน้ำ", "isCorrect": false },
+        { "text": "ระบบรากของหญ้าแฝกยาวและสานกันแน่นหยั่งลึกในดิน ช่วยยึดดินและกรองตะกอนดินเวลาน้ำไหลบ่า", "rationale": "ถูกต้อง! หญ้าแฝกมีรากหยั่งลึกเป็นกำแพงธรรมชาติช่วยยึดดิน ป้องกันหน้าดินถูกชะล้าง และกักเก็บความชื้นได้ดีเยี่ยม", "isCorrect": true },
+        { "text": "ต้นหญ้าแฝกสามารถดูดซับสารเคมีอันตรายทั้งหมดเปลี่ยนเป็นปุ๋ยได้ทันที", "rationale": "ตัวลวงวิทยาศาสตร์ เกินความจริง หญ้าแฝกยึดดินและซับน้ำได้ดีแต่ไม่ได้มีกลไกเปลี่ยนสารพิษเป็นปุ๋ยโดยตรง", "isCorrect": false },
+        { "text": "หญ้าแฝกเติบโตเร็วและสามารถตัดไปขายทำเงินรายได้หลักล้านให้ชุมชน", "rationale": "ตัวลวงพาณิชย์ จุดประสงค์หลักคือการอนุรักษ์ดินและน้ำ ไม่ใช่เพื่อปลูกขายเป็นพืชเศรษฐกิจร่ำรวย", "isCorrect": false }
+      ],
+      "hint": "ความพิเศษของหญ้าแฝกที่ต่างจากหญ้าชนิดอื่นคือลักษณะของ 'ระบบราก' ด่านล่างพื้นดิน"
+    },
+    {
+      "question": "การสร้างสรรค์ภูมิปัญญาท้องถิ่นเรื่อง \"โอ่งมังกร\" ของชาวจังหวัดราชบุรีในอดีต มีปัจจัยพื้นฐานทางกายภาพและทรัพยากรธรรมชาติในข้อใดเป็นตัวเร่งสำคัญ?",
+      "answerOptions": [
+        { "text": "มีแหล่งแร่ทองคำและเหล็กอุดมสมบูรณ์", "rationale": "ตัวลวงผิดประเภท โอ่งทำมาจากดินเหนียว ไม่ได้ใช้เหล็กหรือทองคำเป็นมวลสารหลัก", "isCorrect": false },
+        { "text": "มีแหล่งดินเหนียวคุณภาพดีที่มีเนื้อละเอียดและสีเฉพาะตัวในพื้นที่", "rationale": "ถูกต้อง! การทำเครื่องปั้นดินเผาหรือโอ่งจำเป็นต้องมีวัตถุดิบหลักคือ ดินเหนียว ซึ่งในแถบนั้นมีดินเหนียวที่เหมาะกับการปั้นและทนความร้อนสูงในการเผา", "isCorrect": true },
+        { "text": "มีชายฝั่งทะเลทอดยาวเหมาะแก่การขนส่งสินค้าทางเรือ", "rationale": "ตัวลวงภูมิศาสตร์ จังหวัดราชบุรีไม่มีอาณาเขตติดชายฝั่งทะเลอ่าวไทยโดยตรง", "isCorrect": false },
+        { "text": "มีสภาพอากาศหนาวเย็นตลอดทั้งปีทำให้โอ่งแห้งเร็ว", "rationale": "ตัวลวงสภาพอากาศ ราชบุรีอยู่ในเขตภูมิอากาศร้อนชื้นไม่ได้มีอากาศหนาวเย็นจัด", "isCorrect": false }
+      ],
+      "hint": "เครื่องปั้นดินเผาทุกชนิดเกิดขึ้นได้จากความอุดมสมบูรณ์ของ 'ทรัพยากรดิน' ประเภทใดในท้องถิ่น"
+    },
+    {
+      "question": "เหตุใดตามวัฒนธรรมไทยประเพณี จึงมักมีการจัดระเบียบโครงสร้างบ้านเรือนในอดีตให้มี \"หลังคาทรงจั่วสูง\" และยกใต้ถุนเรือนให้โล่งสูงจากพื้นดิน?",
+      "answerOptions": [
+        { "text": "เพื่อป้องกันลมพายุหมุนทอร์นาโดจากมหาสมุทร", "rationale": "ตัวลวงเกินจริง ประเทศไทยไม่ได้ตั้งอยู่ในเขตปะทะลมพายุทอร์นาโดรุนแรงแบบทวีปอเมริกา", "isCorrect": false },
+        { "text": "เพื่อให้สอดคล้องกับสภาพภูมิอากาศร้อนชื้น ฝนตกชุก และป้องกันปัญหาน้ำท่วมขังในฤดูน้ำหลาก", "rationale": "ถูกต้อง! ทรงจั่วช่วยระบายน้ำฝนได้เร็ว ใต้ถุนสูงช่วยให้น้ำไหลผ่านเรือนโดยไม่เสียหาย และทำให้อากาศถ่ายเทสะดวกระบายความร้อน", "isCorrect": true },
+        { "text": "เพื่อความสวยงามตามแบบสถาปัตยกรรมตะวันตก", "rationale": "ตัวลวงอารยธรรม เป็นภูมิปัญญาพื้นบ้านดั้งเดิมของเอเชียตะวันออกเฉียงใต้ ไม่ใช่รับมาจากตะวันตก", "isCorrect": false },
+        { "text": "เพื่อประหยัดเนื้อที่ในการเพาะปลูกพืชรอบบ้าน", "rationale": "ตัวลวงเหตุผล การยกใต้ถุนสูงไม่ได้ช่วยเพิ่มเนื้อที่แปลงเกษตรภายนอกบ้านอย่างมีนัยสำคัญ", "isCorrect": false }
+      ],
+      "hint": "วิเคราะห์ความสัมพันธ์ระหว่างที่อยู่อาศัยกับลักษณะ 'ฝนตกหนัก' และ 'แดดแรง' ของประเทศไทย"
+    },
+    {
+      "question": "ตามรัฐธรรมนูญแห่งราชอาณาจักรไทย ข้อใดจัดว่าเป็น \"หน้าที่\" ของชายไทยทุกคนที่มีสัญชาติไทยตามกฎหมาย โดยไม่สามารถหลีกเลี่ยงได้?",
+      "answerOptions": [
+        { "text": "การเข้ารับราชการทหารหรือตรวจเลือกทหารกองเกินเมื่ออายุครบเกณฑ์", "rationale": "ถูกต้อง! การรับราชการทหารเป็นหน้าที่สำคัญที่บัญญัติไว้ในกฎหมายสูงสุดเพื่อความมั่นคงของชาติ", "isCorrect": true },
+        { "text": "การต้องเดินทางไปเรียนต่อในระดับมหาวิทยาลัยทุกคน", "rationale": "ตัวลวงการศึกษา การเรียนระดับอุดมศึกษาเป็นสิทธิและความสมัครใจ ไม่ใช่หน้าที่ภาคบังคับตามกฎหมาย", "isCorrect": false },
+        { "text": "การบริจาคเงินให้วัดหรือศาสนสถานทุกเดือน", "rationale": "ตัวลวงความเชื่อ การทำบุญเป็นสิทธิเสรีภาพทางความเชื่อและกุศลเจตนา ไม่บังคับด้วยกฎหมาย", "isCorrect": false },
+        { "text": "การสมัครเข้าเป็นสมาชิกพรรคการเมืองใดพรรคการเมืองหนึ่ง", "rationale": "ตัวลวงสิทธิ การเข้าเป็นสมาชิกพรรคเป็นเสรีภาพส่วนบุคคล กฎหมายไม่ได้บังคับให้ชายไทยทุกคนต้องทำ", "isCorrect": false }
+      ],
+      "hint": "คิดถึงหน้าที่พื้นฐานที่เกี่ยวข้องกับการป้องกันประเทศและมีระบุช่วงอายุ 21 ปีบริบูรณ์ชัดเจน"
+    },
+    {
+      "question": "หากนักศึกษาพบเห็นว่าผู้นำชุมชนนำเงินงบประมาณส่วนรวมของหมู่บ้านไปใช้จ่ายส่วนตัว พฤติกรรมของผู้นำสอดคล้องกับคำว่าข้อใด และนักศึกษาควรปฏิบัติตนอย่างไรตามระบอบประชาธิปไตย?",
+      "answerOptions": [
+        { "text": "การทุจริตคอร์รัปชัน / ควรนิ่งเฉยเพราะกลัวอันตราย", "rationale": "ตัวลวงยอมจำนน แม้ครึ่งแรกถูกแต่ครึ่งหลังผิด การนิ่งเฉยเป็นการปล่อยให้เกิดการโกงกินทำลายชุมชน", "isCorrect": false },
+        { "text": "การทุจริตคอร์รัปชัน / รวบรวมหลักฐานและแจ้งหน่วยงานที่มีหน้าที่ตรวจสอบ เช่น ป.ป.ช. หรือศูนย์ดำรงธรรม", "rationale": "ถูกต้อง! การนำเงินส่วนรวมไปใช้ส่วนตัวคือการทุจริต และพลเมืองดีต้องมีส่วนร่วมในการสอดส่องดูแลและแจ้งเบาะแสตามช่องทางที่ถูกต้อง", "isCorrect": true },
+        { "text": "การบริหารงานที่ผิดพลาด / เข้าไปด่าทอประจานในโซเชียลมีเดียทันที", "rationale": "ตัวลวงอารมณ์ การด่าทอโดยไม่มีกระบวนการตรวจสอบอาจเข้าข่ายกฎหมายหมิ่นประมาทและไม่ช่วยแก้ปัญหาอย่างเป็นระบบ", "isCorrect": false },
+        { "text": "การช่วยเหลือพวกพ้อง / ขอแบ่งส่วนแบ่งเงินนั้นมาให้ครอบครัวตนเอง", "rationale": "ตัวลวงสมรู้ร่วมคิด การขอแบ่งเงินเป็นการทำผิดกฎหมายและขาดจริยธรรมพลเมืองอย่างรุนแรง", "isCorrect": false }
+      ],
+      "hint": "คำเรียกการโกงเงินหลวงคืออะไร และการแจ้งเรื่องต้องทำผ่านหน่วยงานรัฐที่มีกฎหมายรองรับเพื่อความปลอดภัย"
+    },
+    {
+      "question": "ในยุคประวัติศาสตร์ไทย สมเด็จพระนเรศวรมหาราช ทรงกอบกู้เอกราชของชาติไทยจากพม่าด้วยการทำยุทธหัตถี เหตุการณ์ประวัติศาสตร์นี้เกิดขึ้นในสมัยราชธานีใด?",
+      "answerOptions": [
+        { "text": "สุโขทัย", "rationale": "ตัวลวงยุคแรก สุโขทัยเด่นเรื่องการประดิษฐ์อักษรไทยและการปกครองแบบพ่อปกครองลูก ไม่ใช่ยุคของพระนเรศวร", "isCorrect": false },
+        { "text": "กรุงศรีอยุธยา", "rationale": "ถูกต้อง! สมเด็จพระนเรศวรมหาราชทรงเป็นพระมหากษัตริย์ในสมัยกรุงศรีอยุธยา ทรงทำสงครามยุทธหัตถีเมื่อปี พ.ศ. 2135", "isCorrect": true },
+        { "text": "ธนบุรี", "rationale": "ตัวลวงยุคสั้น สมัยธนบุรีมีพระมหากษัตริย์พระองค์เดียวคือสมเด็จพระเจ้าตากสินมหาราช", "isCorrect": false },
+        { "text": "รัตนโกสินทร์", "rationale": "ตัวลวงยุคปัจจุบัน รัตนโกสินทร์คือยุคปัจจุบัน (กรุงเทพมหานคร) สถาปนาขึ้นหลังจากยุคอยุธยาและธนบุรีเวลานาน", "isCorrect": false }
+      ],
+      "hint": "ราชธานีนี้มีอายุยาวนานถึง 417 ปี และมีแม่น้ำล้อมรอบเป็นเกาะเมือง"
+    },
+    {
+      "question": "การทำสัญญากู้ยืมเงินเกินกว่า 2,000 บาทขึ้นไป หากไม่มีหลักฐานเป็นหนังสือลงลายมือชื่อผู้กู้ยืม จะส่งผลอย่างไรตามประมวลกฎหมายแพ่งและพาณิชย์ของไทย?",
+      "answerOptions": [
+        { "text": "ผู้กู้ยืมต้องติดคุกทันทีเนื่องจากเป็นคดีอาญาแผ่นดิน", "rationale": "ตัวลวงประเภทคดี การกู้ยืมเงินเป็นเรื่องทางแพ่ง ไม่ใช่คดีอาญาที่จะต้องติดคุกทันที", "isCorrect": false },
+        { "text": "ไม่สามารถฟ้องร้องบังคับคดีต่อศาลได้หากเกิดการบิดพริ้วไม่จ่ายเงิน", "rationale": "ถูกต้อง! กฎหมายกำหนดว่าการกู้เงินเกิน 2,000 บาท ต้องมีหลักฐานเป็นหนังสือลงลายมือชื่อผู้กู้ จึงจะสามารถใช้สิทธิฟ้องร้องทางศาลได้", "isCorrect": true },
+        { "text": "สัญญานั้นกลายเป็นโมฆะและเงินทั้งหมดตกเป็นของหลวง", "rationale": "ตัวลวงโมฆะ หนี้ยังคงมีอยู่ตามความจริง แต่เพียงแค่กฎหมายไม่รับรองอำนาจฟ้องร้องให้ และเงินไม่ตกเป็นของรัฐ", "isCorrect": false },
+        { "text": "เจ้าหนี้มีสิทธิไปยึดทรัพย์สินของลูกหนี้ได้เองตามใจชอบ", "rationale": "ตัวลวงความรุนแรง การไปยึดทรัพย์เองโดยไม่มีคำสั่งศาลถือว่าผิดกฎหมายฐานลักทรัพย์หรือกรรโชกทรัพย์", "isCorrect": false }
+      ],
+      "hint": "คำสำคัญของการมีเอกสารหลักฐานสัญญาคือเรื่อง 'การใช้สิทธิทางกฎหมายเมื่อเกิดการเบี้ยวหนี้ผ่านกระบวนการศาล'"
+    },
+    {
+      "question": "แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติฉบับปัจจุบันของประเทศไทย มุ่งเน้นการขับเคลื่อนประเทศโดยน้อมนำปรัชญาใดมาเป็นแนวทางหลักในการพัฒนาทักษะชีวิตและสังคม?",
+      "answerOptions": [
+        { "text": "ปรัชญาเศรษฐกิจทุนนิยมเสรีไร้พรมแดน", "rationale": "ตัวลวงกระแสโลก ทุนนิยมเสรีไม่ใช่แกนหลักที่ประเทศไทยใช้ตั้งต้นในการพัฒนาความมั่นคงยั่งยืนของมนุษย์ภายใน", "isCorrect": false },
+        { "text": "ปรัชญาของเศรษฐกิจพอเพียง", "rationale": "ถูกต้อง! ประเทศไทยใช้ปรัชญาเศรษฐกิจพอเพียง (3 ห่วง 2 เงื่อนไข) เป็นฐานรากหลักในแผนพัฒนาฯ ทุกฉบับเพื่อสร้างภูมิคุ้มกัน", "isCorrect": true },
+        { "text": "แนวคิดการปฏิวัติอุตสาหกรรมหนัก", "rationale": "ตัวลวงอดีต อุตสาหกรรมหนักเป็นเน้นวัตถุ ไม่ใช่แกนคิดบูรณาการมนุษย์และสังคมที่ยั่งยืน", "isCorrect": false },
+        { "text": "ระบบสังคมนิยมแบบปันส่วนเท่าเทียม", "rationale": "ตัวลวงการเมือง สังคมนิยมไม่ได้เป็นระบอบและแนวคิดทางเศรษฐกิจของประเทศไทย", "isCorrect": false }
+      ],
+      "hint": "แนวคิดที่เน้นความพอประมาณ มีเหตุผล และมีภูมิคุ้มกันในตัวที่ดี ซึ่งเป็นที่ยอมรับระดับโลก"
+    },
+    {
+      "question": "สมาคมประชาชาติแห่งเอเชียตะวันออกเฉียงใต้ (ASEAN) จัดตั้งขึ้นโดยมีวัตถุประสงค์หลักข้อใดในการรวมตัวกันของประเทศสมาชิก?",
+      "answerOptions": [
+        { "text": "เพื่อรวมกำลังทหารไปทำสงครามขยายอาณาเขต", "rationale": "ตัวลวงสงคราม อาเซียนไม่ใช่พันธมิตรทางการทหารเพื่อการรุกราน แต่เน้นสันติภาพ", "isCorrect": false },
+        { "text": "เพื่อส่งเสริมความร่วมมือทางด้านเศรษฐกิจ สังคม และวัฒนธรรมในภูมิภาค", "rationale": "ถูกต้อง! วัตถุประสงค์หลักคือการสร้างความร่วมมือ มั่นคง มั่งคั่ง ร่วมกัน พัฒนาคุณภาพชีวิตของประชากรในภูมิภาคเดียวกัน", "isCorrect": true },
+        { "text": "เพื่อบังคับให้ทุกประเทศใช้เงินตราสกุลเดียวกันทั้งหมด", "rationale": "ตัวลวงเลียนแบบ กลุ่มอาเซียนยังไม่มีนโยบายใช้เงินสกุลเดี่ยวเหมือนกลุ่มยุโรป (Euro)", "isCorrect": false },
+        { "text": "เพื่อจัดตั้งรัฐบาลชุดเดียวปกครองทุกประเทศร่วมกัน", "rationale": "ตัวลวงอธิปไตย ทุกประเทศสมาชิกอาเซียนยังคงมีเอกราชและระบบรัฐบาลการปกครองของตนเองอย่างอิสระ", "isCorrect": false }
+      ],
+      "hint": "นึกถึงสัญลักษณ์รวงข้าว 10 ต้นมัดรวมกัน เพื่อสร้างพลังต่อรองทางการค้าและความสงบสุขในภูมิภาคใกล้บ้านเรา"
+    },
+    {
+      "question": "ข้อใดคือพฤติกรรมการปฏิบัติตนที่สะท้อนถึงการมี \"เสรีภาพทางศาสนา\" ในสังคมไทยที่มีความหลากหลายได้อย่างถูกต้องที่สุด?",
+      "answerOptions": [
+        { "text": "การบังคับให้เพื่อนร่วมงานย้ายมานับถือศาสนาเดียวกับตนเอง", "rationale": "ตัวลวงละเมิด การบังคับจิตใจผู้อื่นเป็นการละเมิดสิทธิมนุษยชน ขัดต่อหลักเสรีภาพอย่างสิ้นเชิง", "isCorrect": false },
+        { "text": "การเข้าร่วมหรือปฏิบัติตามพิธีกรรมทางศาสนาที่ตนศรัทธาโดยไม่ไปลบหลู่ดูหมิ่นความเชื่อของศาสนาอื่น", "rationale": "ถูกต้อง! เสรีภาพคือสิทธิในการเลือกนับถือและปฏิบัติ และต้องอยู่บนพื้นฐานของการให้เกียรติและไม่ทำลายสิทธิผู้อื่น", "isCorrect": true },
+        { "text": "การวิพากษ์วิจารณ์คำสอนของศาสนาอื่นในแง่ลบผ่านสื่อออนไลน์", "rationale": "ตัวลวงสร้างความแตกแยก การโจมตีศาสนาอื่นไม่ใช่เสรีภาพที่สร้างสรรค์ แต่เป็นการสร้างความขัดแย้งในสังคม", "isCorrect": false },
+        { "text": "การเรียกร้องให้ยกเลิกวันหยุดราชการของศาสนาอื่นทั้งหมด", "rationale": "ตัวลวงอคติ การเรียกร้องยกเลิกสะท้อนความใจแคบ ไม่สอดคล้องกับการอยู่ร่วมกันอย่างสันติในสังคมพหุวัฒนธรรม", "isCorrect": false }
+      ],
+      "hint": "คำว่า เสรีภาพ ต้องควบคู่ไปกับคำว่า 'หน้าที่' และ 'การไม่ละเมิดผู้อื่น' เสมอ"
+    }
+  ]
+};
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+let state = {
+  isStarted: false,
+  studentName: '',
+  studentId: '',
+  studentLevel: 'สกร. ระดับประถมศึกษา',
+  questions: [],
+  current: 0,
+  answers: [],
+  checked: []
+};
+
+function initQuiz() {
+  let shuffled = shuffleArray([...quizData.questions]);
+  shuffled = shuffled.map(q => {
+    let opts = shuffleArray([...q.answerOptions]);
+    return { ...q, answerOptions: opts };
+  });
+
+  state.questions = shuffled;
+  state.current = 0;
+  state.answers = new Array(shuffled.length).fill(null);
+  state.checked = new Array(shuffled.length).fill(false);
+}
+
+function startQuiz() {
+  const nameInput = document.getElementById('input-name').value.trim();
+  const idInput = document.getElementById('input-id').value.trim();
+  
+  if (!nameInput || !idInput) {
+    alert('⚠️ กรุณากรอกชื่อ-นามสกุล และรหัสนักศึกษาให้ครบถ้วนก่อนเริ่มทำข้อสอบครับ');
+    return;
+  }
+  
+  state.studentName = nameInput;
+  state.studentId = idInput;
+  state.isStarted = true;
+  
+  initQuiz();
+  renderApp();
+}
+
+function renderApp() {
+  const app = document.getElementById('quiz-app');
+  
+  if (!state.isStarted) {
+    app.innerHTML = `
+      <div class="card" style="animation: fadeIn 0.4s ease; text-align: center;">
+        <div class="emoji-banner">🌍 🇹🇭 ⚖️ 🏛️ 🤝 🗳️</div>
+        <h2 style="font-size: 18px; margin-bottom: 18px; color: var(--primary); font-weight: 700;">ลงทะเบียนเข้าทดสอบระบบออนไลน์</h2>
+        
+        <div class="form-group">
+          <label for="input-name">ชื่อ - นามสกุล ผู้เข้าสอบ *</label>
+          <input type="text" id="input-name" class="form-control" placeholder="กรอกชื่อและนามสกุลของคุณ" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="input-id">รหัสนักศึกษา สกร. *</label>
+          <input type="text" id="input-id" class="form-control" placeholder="กรอกรหัสประจำตัวผู้เรียน" required>
+        </div>
+        
+        <div class="form-group">
+          <label>ระดับชั้น / หลักสูตร</label>
+          <input type="text" class="form-control" value="${state.studentLevel}" disabled style="background-color: #f1f5f9; font-weight: 600; color: var(--primary-dark)">
+        </div>
+        
+        <button class="btn btn-primary" onclick="startQuiz()" style="width: 100%; margin-top: 12px; font-size: 16px;">🌍 เริ่มทำแบบทดสอบสังคมศึกษา (ชุดที่ 4)</button>
+      </div>
+    `;
+    return;
+  }
+
+  if (state.current >= state.questions.length) {
+    renderSummary(app);
+    return;
+  }
+
+  const q = state.questions[state.current];
+  const pct = Math.round((state.current / state.questions.length) * 100);
+  const selectedIdx = state.answers[state.current];
+  const isChecked = state.checked[state.current];
+
+  let hintHtml = q.hint ? `<div class="hint-box">💡 <b>แนวคิดช่วยวิเคราะห์:</b> ${q.hint}</div>` : '';
+  
+  let optionsHtml = q.answerOptions.map((opt, idx) => {
+    let cls = 'option-item';
+    if (selectedIdx === idx) cls += ' selected';
+    if (isChecked) {
+      cls += ' disabled';
+      if (opt.isCorrect) cls += ' correct-reveal';
+      else if (selectedIdx === idx) cls += ' wrong-reveal';
+    }
+    return `
+      <div class="${cls}" onclick="selectAnswer(${idx})">
+        <span class="radio-dot"></span>
+        <div style="flex-grow:1;">${opt.text}</div>
+      </div>
+    `;
+  }).join('');
+
+  let feedbackHtml = '';
+  if (isChecked && selectedIdx !== null) {
+    const isCorrect = q.answerOptions[selectedIdx].isCorrect;
+    const rationale = q.answerOptions[selectedIdx].rationale;
+    feedbackHtml = `
+      <div class="rationale-box ${isCorrect ? 'correct' : 'wrong'}">
+        <b>${isCorrect ? '✨ ถูกต้องตามหลักวิชา!' : '❌ วิเคราะห์ตัวลวง'}</b> — ${rationale}
+      </div>
+    `;
+  }
+
+  app.innerHTML = `
+    <div class="card">
+      <div class="progress-container">
+        <span><b>ข้อที่ ${state.current + 1}</b> จาก ${state.questions.length}</span>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+        <span>${pct}% เสร็จสิ้น</span>
+      </div>
+      
+      <div class="question-text">${q.question}</div>
+      ${hintHtml}
+      <div class="options-list">${optionsHtml}</div>
+      ${feedbackHtml}
+
+      <div class="nav-actions">
+        <button class="btn btn-secondary" onclick="goPrev()" ${state.current === 0 ? 'disabled' : ''}>⬅️ ข้อก่อนหน้า</button>
+        ${!isChecked ? 
+          `<button class="btn btn-primary" onclick="checkAnswer()" ${selectedIdx === null ? 'disabled' : ''}>✔️ ส่งตรวจคำตอบ</button>` :
+          `<button class="btn btn-primary" onclick="goNext()">${state.current === state.questions.length - 1 ? '🏁 สรุปผลคะแนนรวม' : 'ข้อถัดไป ➡️'}</button>`
+        }
+      </div>
+    </div>
+  `;
+}
+
+function renderSummary(app) {
+  let score = 0;
+  let reviewHtml = '';
+
+  state.questions.forEach((q, i) => {
+    const userAnsIdx = state.answers[i];
+    const isCorrect = userAnsIdx !== null && q.answerOptions[userAnsIdx].isCorrect;
+    if (isCorrect) score++;
+
+    let correctOpt = q.answerOptions.find(o => o.isCorrect);
+    let userOpt = userAnsIdx !== null ? q.answerOptions[userAnsIdx] : null;
+
+    reviewHtml += `
+      <div class="review-item">
+        <div style="font-weight:600;margin-bottom:6px;color:var(--text)">ข้อ ${i+1}: ${q.question.replace(/\n/g, '<br>')}</div>
+        <div style="color:${isCorrect ? 'var(--green)' : 'var(--red)'}; font-weight:600; font-size:14px;">
+          ${isCorrect ? '🔹 ผลการตอบ: ถูกต้อง' : `🔸 ผลการตอบ: ผิด (คำตอบของคุณ: ${userOpt ? userOpt.text : 'ไม่เลือกคำตอบ'})`}
+        </div>
+        <div style="color:var(--text-muted);font-size:13px;margin-top:4px;background:#f8fafc;padding:8px;border-radius:6px;">
+          <b>💡 เจาะลึกกลยุทธ์ข้อนี้:</b> ${correctOpt ? correctOpt.rationale : ''}
+        </div>
+      </div>
+    `;
+  });
+
+  const pct = Math.round((score / state.questions.length) * 100);
+  const isPass = pct >= 60;
+  const grade = isPass ? "ผ่านเกณฑ์การทดสอบรอบรู้สังคมศึกษา 🎓" : "ควรศึกษาทบทวนเนื้อหาเพิ่มเติม 📘";
+  const gc = isPass ? "grade-pass" : "grade-fail";
+  const msg = isPass ? "ยอดเยี่ยมมาก! คุณมีความเข้าใจในเรื่องหน้าที่พลเมือง กลไกเศรษฐกิจ และกระบวนการคิดวิเคราะห์ปัญหาสังคมในชีวิตประจำวันได้ดี" : "พยายามอีกนิดครับ ลองอ่านทบทวนรายละเอียดตัวลวงและเหตุผลด้านล่างเพื่อเพิ่มความพร้อมก่อนลงสนามสอบจริง";
+
+  app.innerHTML = `
+    <div class="card summary-card">
+      <div style="font-size:40px;margin-bottom:8px;">🏆</div>
+      <h2 style="font-size:22px; margin-bottom:4px; color: var(--primary); font-weight:700;">ใบรายงานผลคะแนนสอบดิจิทัล</h2>
+      <div style="font-size:12px; color:var(--text-muted); margin-bottom:16px;">สถาบันส่งเสริมการเรียนรู้ (สกร.)</div>
+      
+      <div class="student-info-box">
+        <p>👤 <b>ชื่อผู้เข้าสอบ:</b> ${state.studentName}</p>
+        <p>🆔 <b>รหัสประจำตัว:</b> ${state.studentId}</p>
+        <p>🏫 <b>ระดับการศึกษา:</b> ${state.studentLevel}</p>
+      </div>
+
+      <div style="font-size:16px;color:var(--text); margin-top:14px;">สรุปคะแนนทำได้รวม <b>${score}</b> คะแนน จากทั้งหมด <b>${state.questions.length}</b> ข้อ</div>
+      <div style="margin:10px 0;"><span class="grade-pill ${gc}">${grade}</span></div>
+      <div style="color:var(--text-muted);margin-bottom:16px;font-size:14px;padding:0 10px;">${msg}</div>
+      
+      <div class="grid-stats">
+        <div class="stat-box"><div class="stat-num" style="color:var(--green)">${score}</div><div class="slbl">ถูกต้อง (ข้อ)</div></div>
+        <div class="stat-box"><div class="stat-num" style="color:var(--red)">${state.questions.length - score}</div><div class="slbl">ผิดพลาด (ข้อ)</div></div>
+        <div class="stat-box"><div class="stat-num" style="color:var(--primary)">${pct}%</div><div class="slbl">คิดเป็นเปอร์เซ็นต์</div></div>
+      </div>
+      
+      <p style="font-size:12px; color:var(--red); font-weight:600; margin-bottom:18px; background:var(--red-light); padding:6px; border-radius:6px;">📸 สามารถบันทึกภาพหน้าจอนี้เพื่อส่งรายงานคะแนนสะสมเป็นหลักฐานการเรียนรู้ให้แก่คุณครู สกร. ได้เลยครับ</p>
+      
+      <button class="btn btn-primary" onclick="restartQuiz()">🔄 ทำแบบทดสอบใหม่อีกครั้ง (สุ่มเรียงโจทย์ใหม่)</button>
+    </div>
+    
+    <div class="card" style="margin-top:6px;">
+      <div class="review-title">📋 ตารางเฉลยแบบเจาะลึกและบทวิเคราะห์ตัวลวงย้อนกลับ</div>
+      ${reviewHtml}
+    </div>
+  `;
+}
+
+function selectAnswer(i) { if (!state.checked[state.current]) { state.answers[state.current] = i; renderApp(); } }
+function checkAnswer()   { if (state.answers[state.current] !== null) { state.checked[state.current] = true; renderApp(); } }
+function goNext()        { state.current++; renderApp(); }
+function goPrev()        { if (state.current > 0) { state.current--; renderApp(); } }
+function restartQuiz()   { state.isStarted = false; renderApp(); }
+
+renderApp();
+</script>
+</body>
+</html>
